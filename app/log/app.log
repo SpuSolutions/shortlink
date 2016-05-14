@@ -1,0 +1,32 @@
+[2016-05-14 18:37:35] app.INFO: Create form page action dispatched [] {"uid":"feef1e7"}
+[2016-05-14 18:37:40] app.INFO: Create form page action dispatched [] {"uid":"ef9ca0b"}
+[2016-05-14 18:37:44] app.INFO: Create file: C:\xampp\htdocs/shortlink/uploads/105ca6d0fd6c2c3e136980d3548f16ab and url: https://github.com/salvob41/kafka-example-in-scala.git [] {"uid":"42aaf82"}
+[2016-05-14 18:37:44] app.INFO: Created: word: rra, url: https://github.com/salvob41/kafka-example-in-scala.git, filePath: C:\xampp\htdocs/shortlink/uploads/105ca6d0fd6c2c3e136980d3548f16ab [] {"uid":"42aaf82"}
+[2016-05-14 18:37:44] app.INFO: ci siamo 50  [] {"uid":"b2ed269"}
+[2016-05-14 18:37:44] app.INFO: andamos 1463243814 [] {"uid":"b2ed269"}
+[2016-05-14 18:37:44] app.INFO: Detail page action dispatched 50  [] {"uid":"b2ed269"}
+[2016-05-14 18:37:55] app.INFO: ci siamo 50  [] {"uid":"a5e088f"}
+[2016-05-14 18:37:55] app.INFO: andamos 1463243825 [] {"uid":"a5e088f"}
+[2016-05-14 18:37:55] app.INFO: Detail page action dispatched 50  [] {"uid":"a5e088f"}
+[2016-05-14 18:38:16] app.INFO: ci siamo 50  [] {"uid":"ab6ea01"}
+[2016-05-14 18:38:16] app.INFO: andamos 1463243846 [] {"uid":"ab6ea01"}
+[2016-05-14 18:38:16] app.INFO: Detail page action dispatched 50  [] {"uid":"ab6ea01"}
+[2016-05-14 18:38:43] app.INFO: ci siamo 50  [] {"uid":"c4d2f6b"}
+[2016-05-14 18:38:43] app.INFO: andamos 1463243873 plus [] {"uid":"c4d2f6b"}
+[2016-05-14 18:39:02] app.INFO: Create form page action dispatched [] {"uid":"2aeb395"}
+[2016-05-14 18:39:08] app.INFO: Create file: C:\xampp\htdocs/shortlink/uploads/105ca6d0fd6c2c3e136980d3548f16ab and url: http://stackoverflow.com/questions/2325241/file-put-contents-and-a-new-line-help [] {"uid":"e21ddb4"}
+[2016-05-14 18:39:08] app.INFO: Created: word: rra, url: http://stackoverflow.com/questions/2325241/file-put-contents-and-a-new-line-help, filePath: C:\xampp\htdocs/shortlink/uploads/105ca6d0fd6c2c3e136980d3548f16ab [] {"uid":"e21ddb4"}
+[2016-05-14 18:39:08] app.INFO: ci siamo 50  [] {"uid":"6b0a550"}
+[2016-05-14 18:39:08] app.INFO: andamos 1463243898 plus [] {"uid":"6b0a550"}
+[2016-05-14 18:39:08] app.INFO: Detail page action dispatched 50  [] {"uid":"6b0a550"}
+[2016-05-14 18:39:21] app.INFO: ci siamo 50  [] {"uid":"93f3610"}
+[2016-05-14 18:39:21] app.INFO: andamos 1463243911 plus1463243948 [] {"uid":"93f3610"}
+[2016-05-14 18:39:21] app.INFO: Detail page action dispatched 50  [] {"uid":"93f3610"}
+[2016-05-14 18:39:50] app.INFO: ci siamo 50  [] {"uid":"92219e4"}
+[2016-05-14 18:39:50] app.INFO: andamos 1463243940 plus1463243948 [] {"uid":"92219e4"}
+[2016-05-14 18:39:50] app.INFO: Detail page action dispatched 50  [] {"uid":"92219e4"}
+[2016-05-14 18:41:49] app.INFO: ci siamo 50  [] {"uid":"8c98201"}
+[2016-05-14 18:41:49] app.INFO: andamos 1463244059 plus1463243948 [] {"uid":"8c98201"}
+[2016-05-14 18:41:49] app.INFO: Detail page action dispatched 50  [] {"uid":"8c98201"}
+[2016-05-14 18:50:31] app.INFO: ci siamo  [] {"uid":"c0f32d0"}
+[2016-05-14 18:50:31] app.INFO: andamos 1463244631 plus [] {"uid":"c0f32d0"}

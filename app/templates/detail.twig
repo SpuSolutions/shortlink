@@ -1,0 +1,24 @@
+{% extends "layout/layout.twig" %}
+
+{% block body %}
+
+<section class="section" style="margin-top:100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-6 col-md-offset-3">
+                <h1 class="text-center">{{word}}</h1>
+                <p class="text-center">{{base_url()}}/{{word}}</p>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p><strong>Url:</strong> <a href="https://anon.to/?{{url}}" target="_blank">{{url}}</a></p>
+                        <p><strong>Expires in:</strong> {{expiresIn}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    
+
+{% endblock body %}
