@@ -29,11 +29,11 @@ final class DetailAction
         }
 
 
-        $interval= (time() - intval(fgets(fopen($filePath, 'r')))) * 60 ; //in minuti
 
-        if(file_exists($filePath) && ($interval < filemtime($filePath))){
+
+        if(file_exists($filePath) && ((time() - intval(fgets(fopen($filePath, 'r')))) * 60 < filemtime($filePath))){
             
-            if($interval < filemtime($filePath)) {
+            if((time() - intval(fgets(fopen($filePath, 'r')))) * 60 < filemtime($filePath)) {
                 $this->logger->info("Detail page action dispatched ".fgets(fopen($filePath, 'r')));
             }
 

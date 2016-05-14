@@ -8,6 +8,8 @@
     RewriteCond %{REQUEST_FILENAME} -l [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^.*$ - [NC,L]
+    #no access to uploads and app folder
+    RewriteRule ^(uploads/|app/) - [F,L,NC]
 
     RewriteCond %{REQUEST_URI}::$1 ^(/.+)(.+)::\2$
     RewriteRule ^(.*) - [E=BASE:%1]

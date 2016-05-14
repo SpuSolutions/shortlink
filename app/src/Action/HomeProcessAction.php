@@ -39,8 +39,7 @@ final class HomeProcessAction
 
         if(empty($viewData['errors'])){
 
-            $interval= (time() - intval(fgets(fopen($filePath, 'r')))) * 60 ; //in minuti
-            if($filePath !== null && (!file_exists($filePath) || (file_exists($filePath) && ($interval > filemtime($filePath)))))
+            if($filePath !== null && (!file_exists($filePath) || (file_exists($filePath) && ((time() - intval(fgets(fopen($filePath, 'r')))) * 60 > filemtime($filePath)))) )
             {
                 $this->logger->info("Create file: ".$filePath." and url: ".$url);
                 file_put_contents($filePath, '50'.PHP_EOL);
