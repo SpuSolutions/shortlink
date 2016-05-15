@@ -6,42 +6,54 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-md-6 col-md-offset-3">
-                <h1 class="text-center">Create your short link</h1>
+                    <h1 class="text-center">Create your short link</h1>
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <form method="post">
                                 <div class="form-group">
                                     <label for="inputUrl">Url:</label>
-                                    <input type="input" class="form-control" id="inputUrl" placeholder="Url" name="url" value="{{url}}">
+                                    <input type="input" class="form-control" id="inputUrl" placeholder="Url" name="url"
+                                           value="{{ url }}">
                                 </div>
-                                <div class="form-group">
-                                    <label for="inputWord">Memorable Word:</label>
-                                    <input type="input" class="form-control" id="inputWord" placeholder="Memorable Word" name="word" value="{{word}}">
+                                <div class="row">
+                                    <div class="form-group col-md-8">
+                                        <label for="inputWord">Memorable Word:</label>
+                                        <input type="input" class="form-control" id="inputWord"
+                                               placeholder="Memorable Word" name="word" value="{{ word }}">
+                                    </div>
+                                    <label for="inputExpireTime">Expire Time:</label>
+                                    <div class="input-group col-md-4">
+                                        <span class="input-group-addon">mins</span>
+                                        <input type="number" value="60" min="0" step="1" data-number-to-fixed="2"
+                                               data-number-stepfactor="100" class="form-control" id="inputExpireTime"
+                                               name="expireTime"/>
+                                    </div>
                                 </div>
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-default btn-sm btn-success" >
+                                    <button type="submit" class="btn btn-default btn-sm btn-success">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add link
                                     </button>
                                 </div>
-                                
+
                             </form>
 
                             {% if errors %}
-                            <div style="background-color: #FFA5A5; border-color: red; color: #FF0000; padding: 10px; margin-top: 20px;">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> There are some errors:
-                            <ul style="margin-top:10px;">
-                                {% for error in errors %}
-                                <li style="color: #FF0000;">{{ error|e }}</li>
-                                {% endfor %}
-                            </ul>
-                            </div>
-                            
+                                <div style="background-color: #FFA5A5; border-color: red; color: #FF0000; padding: 10px; margin-top: 20px;">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> There are some
+                                    errors:
+                                    <ul style="margin-top:10px;">
+                                        {% for error in errors %}
+                                            <li style="color: #FF0000;">{{ error|e }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+
                             {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>   
+    </section>
 
 {% endblock body %}

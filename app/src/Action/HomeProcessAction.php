@@ -24,7 +24,8 @@ final class HomeProcessAction
         $filePath = null;
 
         $word = $request->getParam('word');
-        $url = $request->getParam('url');        
+        $url = $request->getParam('url');
+        $expireTime = $request->getParam('expireTime');
 
         if (empty($url) || filter_var($url, FILTER_VALIDATE_URL) === false) {
             $viewData['errors'][] = "The URL is not valid. (Example: http://www.example.com)";
@@ -39,10 +40,10 @@ final class HomeProcessAction
 
         if(empty($viewData['errors'])){
 
-            if($filePath !== null && (!file_exists($filePath) || (file_exists($filePath) && ((time() - intval(fgets(fopen($filePath, 'r')))) * 60 > filemtime($filePath)))) )
-            {
-                $this->logger->info("Create file: ".$filePath." and url: ".$url);
-                file_put_contents($filePath, '50'.PHP_EOL);
+            if($filePath !== null && (!file_exists($filePath) || (file_exists($filePath) && ((time() - intval(fgets(fopen($filePath, 'r')))) * 60 > filemtime($filePath)))) ){
+
+                $this->logger->info("Create file: ".$filePath." and url: ".$url. " and expireTime: ". $expireTime);
+                file_put_contents($filePath, $expireTime.PHP_EOL);
                 file_put_contents($filePath, $url, FILE_APPEND);
 
             } else {
@@ -56,11 +57,12 @@ final class HomeProcessAction
 
         if(empty($viewData['errors'])){
             $router = $this->router;
-            $this->logger->info("Created: word: $word, url: $url, filePath: $filePath");
+            $this->logger->info("Created: word: $word, url: $url, expireTime: $expireTime, filePath: $filePath");
             return $response->withRedirect($router->pathFor('detail', ['id' => $word]));
         } else {
             $viewData['url'] = $url;
             $viewData['word'] = $word;
+            $viewData['expireTime'] = $expireTime;
             $viewData['pageTitle'] = "Homepage";
             $this->logger->info("Create form page action dispatched");
             $this->view->render($response, 'home.twig', $viewData);
