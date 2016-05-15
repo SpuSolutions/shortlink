@@ -49,6 +49,7 @@ final class DetailAction
             $viewData['expiresIn'] = ceil((filemtime($filePath) + $expireTime*60 - time()) / 60)." minutes";
             $viewData['pageTitle'] = "Detail";
             $this->view->render($response, 'detail.twig', $viewData);
+            
             return $response;
         } else {
             $this->logger->error("The link you were looking for does not exist: ".file_exists($filePath).
