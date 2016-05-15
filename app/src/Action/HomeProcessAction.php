@@ -27,9 +27,10 @@ final class HomeProcessAction
         $url = $request->getParam('url');
         $expireTime = $request->getParam('expireTime');
         $password = $request->getParam('password');
-        $array = array("word"=>$word, "url"=> $url, "expireTime"=> $expireTime, "password" => $password);
-        $fileExtension = "";
-        $encryptionMethod = "aes128";  // AES is used by the U.S. gov't to encrypt top secret documents.
+
+        $array_content = array("url" => $url, "expireTime" => $expireTime, "password" => $password);
+
+        $encryptionMethod = "AES-128-CFB";  // AES is used by the U.S. gov't to encrypt top secret documents.
 
 
         if (empty($url) || filter_var($url, FILTER_VALIDATE_URL) === false) {
@@ -40,26 +41,35 @@ final class HomeProcessAction
             $viewData['errors'][] = "Memorable word is not valid. Must contain only alphanumeric characters.";
         } else {
             $word = preg_replace("/[^a-zA-Z0-9]+/", "", $word);
+
             if ($password !== "") {
-                $fileExtension = ".key";
+                $password = "yes";
             }
-            $filePath = INC_ROOT . '/shortlink/uploads/' . md5($word) . $fileExtension;
+            $filePath = INC_ROOT . '/shortlink/uploads/' . md5($word);
         }
 
         if (empty($viewData['errors'])) {
 
-            if ($filePath !== null && (!file_exists($filePath) || (file_exists($filePath) && ((time() - intval(fgets(fopen($filePath, 'r')))) * 60 > filemtime($filePath))))) {
+            if ($filePath !== null && (!file_exists($filePath) || (file_exists($filePath) && ((time() - json_decode(utf8_decode(file_get_contents($filePath)))->expireTime* 60)  < filemtime($filePath))))) {
 
-                $this->logger->info("Creating file: " . $filePath . " and url: " . $url . " and expireTime: " . $expireTime);
-                $content = $expireTime . PHP_EOL . $url;
 
-                if (strpos($filePath, '.key') !== false) {
-                    $contentCript = openssl_encrypt($content, $encryptionMethod, $password);
-                    $this->logger->info("crypted content : ". $contentCript);
+                $this->logger->info("Creating file: " . $filePath . " and url: " . $url . " and expireTime: ") ;
+
+                if ($password !== "") {
+                    //we cannot use bytes -> random_bytes
+                    //$iv = random_bytes(16)
+                    //delete the warning
+                    $encrypted =  @openssl_encrypt($array_content["url"], $encryptionMethod, $password);
+                    $this->logger->info("crypted content : " . $encrypted);
+                    $array_content["url"] = $encrypted;
 
                 }
 
-                file_put_contents($filePath, json_encode($array));
+                file_put_contents($filePath, json_encode($array_content));
+
+                $results = json_decode(utf8_decode(file_get_contents($filePath)));
+                $this->logger->info("test results: ". $results->expireTime);
+
 
             } else {
                 if (file_exists($filePath)) {
