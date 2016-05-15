@@ -29,9 +29,6 @@ final class DetailAction
             return $response->withStatus(404)->withHeader('Content-Type', 'text/html');
         }
 
-
-
-
         if(file_exists($filePath) && ((time() - intval(fgets(fopen($filePath, 'r')))* 60)  < filemtime($filePath))){
             $lines = file($filePath);//file in to an array
             //lines is an array
