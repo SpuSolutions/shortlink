@@ -1,4 +1,9 @@
 <?php
+
+use App\Link\LinkService;
+use App\Link\LinkFactory;
+use App\Link\LinkFileDao;
+
 // DIC configuration
 $container = $app->getContainer();
 
@@ -36,6 +41,25 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
+// Link Factory
+$container['linkFactory'] = function($c) {
+    return new LinkFactory();
+};
+
+// Link Factory
+$container['linkDao'] = function($c) {
+    $linkFactory = $c->get('linkFactory');
+    $settings = $c->get('settings');
+    return new LinkFileDao($linkFactory, $settings['linkFileDao']);
+};
+
+// Link Service
+$container['linkService'] = function($c) {
+    $linkDao = $c->get('linkDao');
+    $linkFactory = $c->get('linkFactory');
+    return new LinkService($linkDao, $linkFactory);
+};
+
 // -----------------------------------------------------------------------------
 // Action factories
 // -----------------------------------------------------------------------------
@@ -45,11 +69,11 @@ $container[App\Action\HomeAction::class] = function ($c) {
 };
 
 $container[App\Action\DetailAction::class] = function ($c) {
-    return new App\Action\DetailAction($c->get('view'), $c->get('logger'));
+    return new App\Action\DetailAction($c->get('view'), $c->get('logger'), $c->get('linkService'));
 };
 
 $container[App\Action\HomeProcessAction::class] = function ($c) {
-    return new App\Action\HomeProcessAction($c->get('view'), $c->get('logger'), $c->get('router'));
+    return new App\Action\HomeProcessAction($c->get('view'), $c->get('logger'), $c->get('router'), $c->get('linkService'));
 };
 
 $container[App\Action\AboutAction::class] = function ($c) {
