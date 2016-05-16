@@ -16,7 +16,6 @@ function pr($data = array()){
 	print_r($data);
 	echo '</pre>';
 }
-
 require __DIR__ . '/vendor/autoload.php';
 
 session_start();
