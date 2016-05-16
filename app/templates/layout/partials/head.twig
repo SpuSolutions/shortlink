@@ -8,7 +8,7 @@
           type='text/css'>
 
 
-    {% if url  %}
+    {% if (url) and (pageTitle != "Homepage") %}
         <meta http-equiv="refresh" content="3;url={{ url }}"/>
     {% endif %}
 </head>

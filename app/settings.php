@@ -9,7 +9,7 @@ return [
         'view' => [
             'template_path' => __DIR__ . '/templates',
             'twig' => [
-                'cache' => __DIR__ . '/cache/twig',
+                'cache' => __DIR__ . '/../cache/twig',
                 'debug' => true,
                 'auto_reload' => true,
             ],
@@ -18,7 +18,12 @@ return [
         // monolog settings
         'logger' => [
             'name' => 'app',
-            'path' => __DIR__ . '/log/app.log',
+            'path' => __DIR__ . '/../log/app.log',
         ],
+
+        // Link File Data Access Object
+        'linkFileDao' => [
+            'upload_path' => __DIR__ . '/../uploads/',
+        ]
     ],
 ];
