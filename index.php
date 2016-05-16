@@ -7,6 +7,10 @@ if (PHP_SAPI === 'cli-server' && $_SERVER['SCRIPT_FILENAME'] !== __FILE__) {
 }
 define('INC_ROOT', dirname(__DIR__));
 
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
+
 function pr($data = array()){
 	echo '<pre>';
 	print_r($data);
