@@ -20,8 +20,8 @@ final class HomeAction
     public function __invoke(Request $request, Response $response, $args)
     {        
         $this->logger->info("Create form page action dispatched");
-        
-        $this->view->render($response, 'home.twig', array('pageTitle' => 'Homepage'));
+        $viewData = array('pageTitle' => 'Homepage');
+        $this->view->render($response, 'home.twig', $viewData);
         return $response;
     }
 }
