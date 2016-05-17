@@ -36,6 +36,7 @@ final class DetailAction
             $viewData['word'] = $link->getWord();
             $viewData['url'] = $link->getUrl();
             $viewData['expiresIn'] = $link->getRemainingMinutes()." minutes";
+            $viewData['pageTitle'] = $link->getWord();
             $this->view->render($response, 'detail.twig', $viewData);
 
             return $response;
