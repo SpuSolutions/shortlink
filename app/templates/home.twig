@@ -10,10 +10,12 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <form method="post">
-                                <div class="form-group">
-                                    <label for="inputUrl">Url:</label>
-                                    <input type="input" class="form-control" id="inputUrl" placeholder="Url" name="url"
-                                           value="{{ url }}">
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="inputUrl">Url:</label>
+                                        <input type="input" class="form-control" id="inputUrl" placeholder="Url" name="url"
+                                               value="{{ url }}">
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-8">
@@ -21,12 +23,14 @@
                                         <input type="input" class="form-control" id="inputWord"
                                                placeholder="Memorable Word" name="word" value="{{ word }}">
                                     </div>
-                                    <label for="inputExpireTime">Expire Time:</label>
-                                    <div class="input-group col-md-4">
-                                        <span class="input-group-addon">mins</span>
-                                        <input type="number" value="60" min="0" step="1" data-number-to-fixed="2"
-                                               data-number-stepfactor="100" class="form-control" id="inputExpireTime"
-                                               name="expireTime"/>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputExpireTime">Expire Time:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">mins</span>
+                                            <input type="number" value="60" min="0" step="1" data-number-to-fixed="2"
+                                                   data-number-stepfactor="100" class="form-control" id="inputExpireTime"
+                                                   name="expireTime"/>
+                                        </div>
                                     </div>
                                 </div>
                                 <a href="#inputPassword" class="btn btn-default" data-toggle="collapse">Make it
