@@ -6,7 +6,7 @@ Class Link {
 	
 	private $word;
 	private $url;
-	private $expireTime;
+	private $expireTime = 60;
 	private $passwordProtected = false;
 	private $created;
 	private $errors;
@@ -57,7 +57,7 @@ Class Link {
 		return $this->created;
 	}
 
-	public function setPasswordProtected($created)
+	public function setPasswordProtected($passwordProtected)
 	{
 		$this->passwordProtected = $passwordProtected;
 	}
@@ -69,7 +69,7 @@ Class Link {
 
 	public function isValid()
 	{
-		return $this->isValidWord() && $this->isValidUrl() && $this->isValidExpireTime();
+		return $this->isValidWord() && $this->isValidUrl() && $this->isValidExpireTime() && $this->isValidCreated() && $this->isValidPasswordProtected();
 	}
 
 	public function __toString()
@@ -96,7 +96,12 @@ Class Link {
 
 	public function getRemainingMinutes()
 	{
-		return ceil(($this->created + $this->expireTime * 60 - time()) / 60);
+		$remainingMinutes = ceil(($this->created + $this->expireTime * 60 - time()) / 60);
+		if($remainingMinutes >= 0) {
+			return $remainingMinutes;
+		} else {
+			return 0;
+		}
 	}
 
 	private function setError($message)
@@ -116,11 +121,17 @@ Class Link {
 
 	private function isValidExpireTime()
 	{
-		return (is_int($this->expireTime));
+		return (is_int($this->expireTime) && $this->expireTime >= 1 && $this->expireTime <= 60);
 	}
 
+	private function isValidCreated()
+	{
+		return (is_int($this->created) && strlen($this->created) === 10);
+	}
 
-
-	
+	private function isValidPasswordProtected()
+	{
+		return in_array($this->passwordProtected, [false, true], true);
+	}	
 
 }

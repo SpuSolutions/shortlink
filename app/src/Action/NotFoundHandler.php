@@ -19,7 +19,8 @@ class NotFoundHandler extends NotFound {
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response) {
         parent::__invoke($request, $response);
 
-        $this->view->render($response, $this->templateFile);
+        $viewData = array('pageTitle' => 404);
+        $this->view->render($response, $this->templateFile, $viewData);
 
         return $response->withStatus(404);
     }
