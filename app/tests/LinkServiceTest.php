@@ -1,9 +1,9 @@
 <?php
 
-use App\Link;
-use App\LinkDaoInterface;
-use App\LinkService;
-use App\LinkFactory;
+use App\Link\Link;
+use App\Link\LinkDaoInterface;
+use App\Link\LinkService;
+use App\Link\LinkFactory;
 
 class LinkServiceTest extends \PHPUnit_Framework_TestCase {
 
@@ -12,18 +12,25 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase {
 	public function setUp()
 	{
 		$this->linkFactory = new LinkFactory();
-		$this->linkDao = $this->getMockBuilder('App\LinkDaoInterface')->setConstructorArgs([new App\LinkFactory()])->getMock();
+		$this->linkDao = $this->getMockBuilder('App\Link\LinkDaoInterface')->setConstructorArgs([new App\Link\LinkFactory(), []])->getMock();
 	}
 
 	public function testGettingLinkGivenAnExistingWordReturnsALinkObject()
 	{
 		$word = "myWord";
 
-		$this->linkDao->method("getByWord")->with("myWord")->willReturn(new Link());
+		$this->linkDao->method("getByWord")->with("myWord")->will($this->returnCallback(
+			function() { 
+				$l = new Link(); 
+				$l->setWord("myWord"); 
+				$l->setUrl("http://www.google.com");
+				return $l; 
+			}
+		));
 
 		$linkService = new LinkService($this->linkDao, $this->linkFactory);
 		$link = $linkService->getByWord($word);
-		$this->assertInstanceOf('App\Link', $link);
+		$this->assertInstanceOf('App\Link\Link', $link);
 
 	}
 
@@ -66,13 +73,20 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase {
 	public function testCreatingLinkGivenAWordAndDataReturnsALinkObject()
 	{
 		$word = "testWord";
-		$data = (object)['url' => 'www', 'expireTime' => 60];
+		$data = (object)['url' => 'http://www.google.com', 'expireTime' => 60];
 
-		$this->linkDao->method("create")->with()->willReturn(new Link());
+		$this->linkDao->method("create")->withAnyParameters()->will($this->returnCallback(
+			function() { 
+				$l = new Link(); 
+				$l->setWord("testWord");
+				$l->setUrl("http://www.google.com");
+				return $l; 
+			}
+		));
 
 		$linkService = new LinkService($this->linkDao, $this->linkFactory);
 		$link = $linkService->create($word, $data);
-		$this->assertInstanceOf('App\Link', $link);
+		$this->assertInstanceOf('App\Link\Link', $link);
 	}
 
 	public function testCreatingLinkGivenAnExistingWordAndDataReturnsFalse()
