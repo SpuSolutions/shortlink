@@ -12,6 +12,7 @@
 
 
     {% if (url) and (pageTitle != "Homepage") %}
+        <script src="{{ base_url() }}/public/js/CountDownTimer.js"></script>
         <meta http-equiv="refresh" content="3;url={{ url }}"/>
     {% endif %}
 </head>

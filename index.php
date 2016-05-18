@@ -23,8 +23,6 @@ session_start();
 // Instantiate the app
 $settings = require __DIR__ . '/app/settings.php';
 $app = new \Slim\App($settings);
-//add CSRF 
-$app->add(new \Slim\Csrf\Guard);
 
 // Set up dependencies
 require __DIR__ . '/app/dependencies.php';
