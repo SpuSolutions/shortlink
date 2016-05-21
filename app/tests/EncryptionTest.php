@@ -18,11 +18,12 @@ class EncryptionTest extends PHPUnit_Framework_TestCase
         $secretKey = "testPassword";
         $method = "AES-128-CBC";
         $text = "testword";
-        $expected = "PibsIqtdYN4=";
+
 
         $encryptClass = new Encryption($secretKey);
         $encryptClass->setMethod($method);
-        $this->assertEquals($expected, $encryptClass->encode($text));
+        $encryptedWord = $encryptClass->encrypt($text, $secretKey);
+        $this->assertEquals($text, $encryptClass->decrypt($encryptedWord, $secretKey));
     }
     /*
 Sample Call:
