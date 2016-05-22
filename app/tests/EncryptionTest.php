@@ -13,11 +13,10 @@ class EncryptionTest extends PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function testCreatingNewEncryptionWithPassword()
+    public function testEncryptDecrypt()
     {
         $secretKey = "testPassword";
         $text = "testword";
-
 
         $encryptClass = new Encryption($secretKey);
         $encryptedWord = $encryptClass->encrypt($text, $secretKey);
