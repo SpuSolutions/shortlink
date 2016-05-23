@@ -28,10 +28,11 @@ final class HomeProcessAction
 
         $word = $request->getParam('word');
         $url = $request->getParam('url');
+        $password = $request->getParam('password');
         $expireTime = (int)$request->getParam('expireTime');
 
-        //	Chiedo perdono. Creare cosi un object e' un po' bruttino. Ma ho bisogno di un object velocemente.
-        $data = (object)['url' => $url, 'expireTime' => $expireTime];
+        // TODO: create object better
+        $data = (object)['url' => $url, 'expireTime' => $expireTime, 'password' => $password];
 
         //	Send data to the Link Service
         $link = $this->linkService->create($word, $data);        

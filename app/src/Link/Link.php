@@ -5,7 +5,7 @@ namespace App\Link;
 Class Link {
 	
 	private $word;
-	private $url;
+	private $url; //might be encrypted
 	private $expireTime = 60;
 	private $passwordProtected = false;
 	private $created;
@@ -87,8 +87,12 @@ Class Link {
 	/**
 	 * @param $passwordProtected
      */
-	public function setPasswordProtected($passwordProtected)
+	public function setPasswordProtected($password)
 	{
+		$passwordProtected = false;
+		if($password!= ''){
+			$passwordProtected = true;
+		}
 		$this->passwordProtected = $passwordProtected;
 	}
 

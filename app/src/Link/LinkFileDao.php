@@ -4,6 +4,7 @@ namespace App\Link;
 
 use App\Link\Link;
 use App\Link\LinkFactory;
+use App\Security\Encryption;
 
 Class LinkFileDao implements LinkDaoInterface
 {
@@ -28,9 +29,11 @@ Class LinkFileDao implements LinkDaoInterface
         $word = $link->getWord();
         $filePath = $this->buildFilePath($word);
 
-        //	Only proceed to create the file if a file with the same name doesn't exist or exists and has expired
         $testExistingLink = $this->getByWord($word);
+
+        //	Only proceed to create the file if a file with the same name doesn't exist or exists and has expired
         if ($testExistingLink === false || ($testExistingLink && $testExistingLink->hasExpired())) {
+            
 
             //	Proceed to create the file
             //	If file creation fails return false
@@ -49,7 +52,7 @@ Class LinkFileDao implements LinkDaoInterface
     /**
      * Search for a link in the filesystem
      * @param $word
-     * @return \App\Link\Link|bool
+     * @return \App\Link\Link || bool
      */
     public function getByWord($word)
     {
@@ -63,6 +66,7 @@ Class LinkFileDao implements LinkDaoInterface
             $link->setUrl($fileData->url);
             $link->setExpireTime($fileData->expireTime);
             $link->setCreated($fileData->created);
+            $link->setPasswordProtected($fileData->passwordProtected);
 
             return $link;
         } else {
@@ -88,6 +92,7 @@ Class LinkFileDao implements LinkDaoInterface
      * @param $filePath
      * @return mixed
      */
+
     private function getFileContent($filePath)
     {
         $data = file_get_contents($filePath);
@@ -96,6 +101,7 @@ Class LinkFileDao implements LinkDaoInterface
     }
 
     /**
+     * Save the content of the file
      * @param $filePath
      * @param $link
      * @return int
