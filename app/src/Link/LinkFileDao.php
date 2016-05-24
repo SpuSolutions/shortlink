@@ -23,12 +23,12 @@ Class LinkFileDao implements LinkDaoInterface {
 		$word = $link->getWord();
 		$filePath = $this->buildFilePath($word);
 
-		//	Only proceed to create the file if a file with the same name doesn't exist or exists and has expired
+		// Only proceed to create the file if a file with the same name doesn't exist or exists and has expired
 		$testExistingLink = $this->getByWord($word);
 		if($testExistingLink === false || ($testExistingLink && $testExistingLink->hasExpired())){
 
-			//	Proceed to create the file
-			//	If file creation fails return false
+			// Proceed to create the file
+			// If file creation fails return false
 			if(!$this->saveFileContent($filePath, $link)){ 
 				return false; 
 			} else {
@@ -41,7 +41,7 @@ Class LinkFileDao implements LinkDaoInterface {
 	}
 
 	/**
-	 *	Search for a link in the filesystem
+	 * Search for a link in the filesystem
 	 */
 	public function getByWord($word)
 	{
@@ -50,7 +50,7 @@ Class LinkFileDao implements LinkDaoInterface {
 
 			$fileData = $this->getFileContent($filePath);
 			
-			//	Build the link object
+			// Build the link object
 			$link = $this->linkFactory->create();
 			$link->setWord($word);
 			$link->setUrl($fileData->url);
@@ -65,7 +65,7 @@ Class LinkFileDao implements LinkDaoInterface {
 	}
 
 	/**
-	 *	Build the file path for a $word
+	 * Build the file path for a $word
 	 */
 	private function buildFilePath($word)
 	{
@@ -73,7 +73,7 @@ Class LinkFileDao implements LinkDaoInterface {
 	}
 
 	/**
-	 *	Return a std object of the contents of a file
+	 * Return a std object of the contents of a file
 	 */
 	private function getFileContent($filePath)
 	{
