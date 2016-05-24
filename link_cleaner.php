@@ -1,7 +1,7 @@
 <?php
 
 $linkDirectory = "uploads";
-$expireTime = 5; // time to wait in minutes before deleting a link file
+$expireTime = 70; // time to wait in minutes before deleting a link file
 
 $dir = new DirectoryIterator($linkDirectory);
 foreach ($dir as $fileinfo) {
