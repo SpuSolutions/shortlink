@@ -21,7 +21,7 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase {
 
 		$this->linkDao->method("getByWord")->with("myWord")->will($this->returnCallback(
 			function() { 
-				$l = new Link(); 
+				$l = $this->linkFactory->create();
 				$l->setWord("myWord"); 
 				$l->setUrl("http://www.google.com");
 				return $l; 
@@ -77,7 +77,7 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase {
 
 		$this->linkDao->method("create")->withAnyParameters()->will($this->returnCallback(
 			function() { 
-				$l = new Link(); 
+				$l = $this->linkFactory->create();
 				$l->setWord("testWord");
 				$l->setUrl("http://www.google.com");
 				return $l; 
