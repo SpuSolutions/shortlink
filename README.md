@@ -8,4 +8,4 @@ _Twig template engine_,
 _Bootstrap_
 
 
-#How to:
+#How to install shortlink for testing:
