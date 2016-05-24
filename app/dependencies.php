@@ -3,6 +3,7 @@
 use App\Link\LinkService;
 use App\Link\LinkFactory;
 use App\Link\LinkFileDao;
+use App\Link\LinkValidator;
 
 // DIC configuration
 $container = $app->getContainer();
@@ -60,6 +61,12 @@ $container['linkService'] = function($c) {
     return new LinkService($linkDao, $linkFactory);
 };
 
+// Link Service
+$container['linkValidator'] = function($c) {
+    return new LinkValidator();
+};
+
+
 // -----------------------------------------------------------------------------
 // Action factories
 // -----------------------------------------------------------------------------
@@ -73,7 +80,7 @@ $container[App\Action\DetailAction::class] = function ($c) {
 };
 
 $container[App\Action\HomeProcessAction::class] = function ($c) {
-    return new App\Action\HomeProcessAction($c->get('view'), $c->get('logger'), $c->get('router'), $c->get('linkService'));
+    return new App\Action\HomeProcessAction($c->get('view'), $c->get('logger'), $c->get('router'), $c->get('linkService'), $c->get('linkValidator'));
 };
 
 $container[App\Action\AboutAction::class] = function ($c) {
