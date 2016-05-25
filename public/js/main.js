@@ -1,9 +1,12 @@
 window.onload = function () {
 
     var display = document.querySelector('#redirectCountdown'),
-        timer = new CountDownTimer(3);
+        timer;
 
-    timer.onTick(format).start();
+    if(display){
+        timer = new CountDownTimer(3);
+        timer.onTick(format).start();
+    }    
 
     function restart() {
         if (this.expired()) {
