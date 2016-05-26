@@ -169,6 +169,7 @@ Class Link {
      */
 	private function isValidWord()
 	{
+
 		return (ctype_alpha($this->word));
 	}
 
@@ -177,7 +178,8 @@ Class Link {
      */
 	private function isValidUrl()
 	{
-		return (!filter_var($this->url, FILTER_VALIDATE_URL) === false);
+        return true;
+		//return (!filter_var($this->url, FILTER_VALIDATE_URL) === false);
 	}
 
 	/**
@@ -201,6 +203,7 @@ Class Link {
      */
 	private function isValidPasswordProtected()
 	{
+
 		return in_array($this->passwordProtected, [false, true], true);
 	}	
 
