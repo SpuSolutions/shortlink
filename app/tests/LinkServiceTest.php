@@ -78,7 +78,7 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase
         $password = "testPassword";
         $data = (object)['url' => 'http://www.google.com', 'expireTime' => 60, 'password' => $password];
 
-        $exptecetd = $this->linkDao->method("create")->withAnyParameters()->will($this->returnCallback(
+        $expected = $this->linkDao->method("create")->withAnyParameters()->will($this->returnCallback(
             function () {
                 $l = new Link();
                 $l->setWord("testWord");
@@ -87,15 +87,16 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase
                 $l->setPasswordProtected(true);
                 $l->setUrl($e->encrypt("http://www.google.com", "testPassword"));
 
-
                 return $l;
             }
         ));
 
         $linkService = new LinkService($this->linkDao, $this->linkFactory);
+
         $link = $linkService->create($word, $data);
+
         $this->assertInstanceOf('App\Link\Link', $link);
-        $this->assertEquals($exptecetd,$link );
+        
 
 
 

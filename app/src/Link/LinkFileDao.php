@@ -38,6 +38,7 @@ Class LinkFileDao implements LinkDaoInterface
             //	Proceed to create the file
             //	If file creation fails return false
             if (!$this->saveFileContent($filePath, $link)) {
+                throw new Exception('file creation fails return false');
                 return false;
             } else {
                 return $link;

@@ -5,6 +5,7 @@ namespace App\Link;
 use App\Link\LinkDaoInterface;
 use App\Link\LinkFactory;
 use App\Security\Encryption;
+use Exception;
 
 class LinkService
 {
@@ -65,9 +66,10 @@ class LinkService
 
         if ($password != ''){
             //we need encryption
-            $link->setPasswordProtected($password);
+            $link->setPasswordProtected(true);
             $encryptClass = new Encryption($password);
             $url = $encryptClass->encrypt($url,$password);
+
 
         }
 
@@ -78,8 +80,10 @@ class LinkService
 
         //	If the link holds valid data, send it to the DAO layer to try to save it
         if ($link->isValid()) {
+
             return $this->linkDao->create($link);
         } else {
+            throw new Exception("niente");
             return false;
         }
 
