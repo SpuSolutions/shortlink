@@ -1,8 +1,10 @@
 composer.phar
+composer.lock
 /vendor/
 
 *.iml
 .idea/
+nbproject/
 
 uploads/
 *cache/

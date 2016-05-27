@@ -17,9 +17,14 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function testGettingLinkGivenAnExistingWordReturnsALinkObject()
-    {
-        $word = "myWord";
+		$this->linkDao->method("getByWord")->with("myWord")->will($this->returnCallback(
+			function() { 
+				$l = $this->linkFactory->create();
+				$l->setWord("myWord"); 
+				$l->setUrl("http://www.google.com");
+				return $l; 
+			}
+		));
 
         $this->linkDao->method("getByWord")->with("myWord")->will($this->returnCallback(
             function () {
@@ -72,11 +77,14 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testCreatingLinkWithPasswordGivenAWordAndDataReturnsALinkObject()
-    {
-        $word = "testWord";
-        $password = "testPassword";
-        $data = (object)['url' => 'http://www.google.com', 'expireTime' => 60, 'password' => $password];
+		$this->linkDao->method("create")->withAnyParameters()->will($this->returnCallback(
+			function() { 
+				$l = $this->linkFactory->create();
+				$l->setWord("testWord");
+				$l->setUrl("http://www.google.com");
+				return $l; 
+			}
+		));
 
         $expected = $this->linkDao->method("create")->withAnyParameters()->will($this->returnCallback(
             function () {

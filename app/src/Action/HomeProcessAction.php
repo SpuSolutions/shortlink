@@ -6,6 +6,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use App\Link\LinkService;
+use App\ValidatorInterface;
 
 final class HomeProcessAction
 {
@@ -13,39 +14,52 @@ final class HomeProcessAction
     private $logger;
     private $router;
     private $linkService;
+    private $linkValidator;
 
-    public function __construct(Twig $view, LoggerInterface $logger, $router, LinkService $linkService)
+    public function __construct(Twig $view, LoggerInterface $logger, $router, LinkService $linkService, ValidatorInterface $linkValidator)
     {
         $this->view = $view;
         $this->logger = $logger;
         $this->router = $router;
         $this->linkService = $linkService;
+        $this->linkValidator = $linkValidator;
     }
 
     public function __invoke(Request $request, Response $response, $args)
     {
         $viewData = array();
 
-        $word = $request->getParam('word');
-        $url = $request->getParam('url');
-        $password = $request->getParam('password');
-        $expireTime = (int)$request->getParam('expireTime');
+        $linkData = new \stdClass();
+        $linkData->word = $request->getParam('word');
+        $linkData->url = $request->getParam('url');
+        $linkData->expireTime = (int)$request->getParam('expireTime');
+        
+        // Check if input link data is valid
+        if($this->linkValidator->isValid($linkData)){
+            
+            // Send data to the Link Service
+            $link = $this->linkService->create($linkData->word, $linkData);        
 
-        // TODO: create object better
-        $data = (object)['url' => $url, 'expireTime' => $expireTime, 'password' => $password];
-
-        //	Send data to the Link Service
-        $link = $this->linkService->create($word, $data);        
-
-        if($link !== false){
-            $router = $this->router;
-            return $response->withRedirect($router->pathFor('detail', ['id' => $word]));
+            if($link !== false){
+                $router = $this->router;
+                return $response->withRedirect($router->pathFor('detail', ['id' => $linkData->word]));
+            } else {
+                $viewData['url'] = $linkData->url;
+                $viewData['word'] = $linkData->word;
+                $viewData['expireTime'] = $linkData->expireTime;
+                $viewData['pageTitle'] = "Homepage";
+                $viewData['errors'][] = "Memorable word already taken.";
+                $this->logger->info("Create form page action dispatched");
+                $this->view->render($response, 'home.twig', $viewData);
+                return $response;
+            }
+        
         } else {
-            $viewData['url'] = $url;
-            $viewData['word'] = $word;
-            $viewData['expireTime'] = $expireTime;
+            $viewData['url'] = $linkData->url;
+            $viewData['word'] = $linkData->word;
+            $viewData['expireTime'] = $linkData->expireTime;
             $viewData['pageTitle'] = "Homepage";
-            $viewData['errors'][] = "Memorable word already taken.";
+            $viewData['errors'] = $this->linkValidator->getErrors();
             $this->logger->info("Create form page action dispatched");
             $this->view->render($response, 'home.twig', $viewData);
             return $response;

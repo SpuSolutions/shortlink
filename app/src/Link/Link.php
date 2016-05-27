@@ -9,7 +9,6 @@ Class Link {
 	private $expireTime = 60;
 	private $passwordProtected = false;
 	private $created;
-	private $errors;
 
 	/**
 	 * Link constructor.
@@ -17,7 +16,6 @@ Class Link {
 	public function __construct()
 	{
 		$this->created = time();
-		$this->errors = array();
 	}
 
 	/**
@@ -105,14 +103,6 @@ Class Link {
 	}
 
 	/**
-	 * @return bool
-     */
-	public function isValid()
-	{
-		return $this->isValidWord() && $this->isValidUrl() && $this->isValidExpireTime() && $this->isValidCreated() && $this->isValidPasswordProtected();
-	}
-
-	/**
 	 * @return string
      */
 	public function __toString()
@@ -136,14 +126,6 @@ Class Link {
 	}
 
 	/**
-	 * @return array
-     */
-	public function getErrors()
-	{
-		return $this->errors;
-	}
-
-	/**
 	 * @return float|int
      */
 	public function getRemainingMinutes()
@@ -155,56 +137,5 @@ Class Link {
 			return 0;
 		}
 	}
-
-	/**
-	 * @param $message
-     */
-	private function setError($message)
-	{
-		$this->errors[] = $message;
-	}
-
-	/**
-	 * @return bool
-     */
-	private function isValidWord()
-	{
-
-		return (ctype_alpha($this->word));
-	}
-
-	/**
-	 * @return bool
-     */
-	private function isValidUrl()
-	{
-        return true;
-		//return (!filter_var($this->url, FILTER_VALIDATE_URL) === false);
-	}
-
-	/**
-	 * @return bool
-     */
-	private function isValidExpireTime()
-	{
-		return (is_int($this->expireTime) && $this->expireTime >= 1 && $this->expireTime <= 60);
-	}
-
-	/**
-	 * @return bool
-     */
-	private function isValidCreated()
-	{
-		return (is_int($this->created) && strlen($this->created) === 10);
-	}
-
-	/**
-	 * @return bool
-     */
-	private function isValidPasswordProtected()
-	{
-
-		return in_array($this->passwordProtected, [false, true], true);
-	}	
 
 }

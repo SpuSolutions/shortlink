@@ -24,6 +24,7 @@ return [
         // Link File Data Access Object
         'linkFileDao' => [
             'upload_path' => __DIR__ . '/../uploads/',
+            'totalLinkFiles' => 1000,
         ]
     ],
 ];
