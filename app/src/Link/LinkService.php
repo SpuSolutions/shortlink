@@ -2,8 +2,6 @@
 
 namespace App\Link;
 
-use App\Link\LinkDaoInterface;
-use App\Link\LinkFactory;
 use App\Security\Encryption;
 use Exception;
 
@@ -46,10 +44,20 @@ class LinkService
         if ($word === null || empty($word) || empty((array) $data) || !is_object($data)){
             return false;
         }
-
+        $url = $data->url;
+        $password = isset($data->password)?$data->password:'';
         $link = $this->linkFactory->create();
-        $link->setWord($word);
-        $link->setUrl($data->url);
+
+        if ($password != ''){
+            //we need encryption
+            $link->setPasswordProtected(true);
+            $encryptClass = new Encryption($password);
+            $url = $encryptClass->encrypt($url,$password);
+
+
+        }
+
+        $link->setUrl($url);
         $link->setExpireTime($data->expireTime);
         $link->setCreated(time());
 

@@ -85,12 +85,9 @@ Class Link {
 	/**
 	 * @param $passwordProtected
      */
-	public function setPasswordProtected($password)
+	public function setPasswordProtected($passwordProtected)
 	{
-		$passwordProtected = false;
-		if($password!= ''){
-			$passwordProtected = true;
-		}
+
 		$this->passwordProtected = $passwordProtected;
 	}
 
