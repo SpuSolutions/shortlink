@@ -17,7 +17,7 @@ Class LinkValidator implements ValidatorInterface {
         $this->errors = [];
         
         if(!ctype_alpha($link->word) || empty($link->word) || strlen($link->word) > 10){
-            $this->setError('word', 'Word is not valid. Must contain only letters.');
+            $this->setError('word', 'Word: '.$link->word.' is not valid. Must contain only letters or be shorter than 10 characters.');
         }
         
         if(!(!filter_var($link->url, FILTER_VALIDATE_URL) === false) || empty($link->url)){
