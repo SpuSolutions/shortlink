@@ -48,12 +48,11 @@ class LinkService
         $password = isset($data->password)?$data->password:'';
         $link = $this->linkFactory->create();
 
-        if ($password != ''){
+        if ($password !== ''){
             //we need encryption
             $link->setPasswordProtected(true);
             $encryptClass = new Encryption($password);
             $url = $encryptClass->encrypt($url,$password);
-
         }
 
         $link->setUrl($url);

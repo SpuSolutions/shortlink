@@ -75,6 +75,9 @@ Class LinkFileDao implements LinkDaoInterface
             $link->setUrl($fileData->url);
             $link->setExpireTime($fileData->expireTime);
             $link->setCreated($fileData->created);
+            $link->setPasswordProtected($fileData->passwordProtected);
+
+            return $link;
 
         } else {
             return false;
