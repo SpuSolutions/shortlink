@@ -54,7 +54,6 @@ class LinkService
             $encryptClass = new Encryption($password);
             $url = $encryptClass->encrypt($url,$password);
 
-
         }
 
         $link->setUrl($url);

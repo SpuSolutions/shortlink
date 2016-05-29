@@ -33,6 +33,7 @@ final class HomeProcessAction
         $linkData->word = $request->getParam('word');
         $linkData->url = $request->getParam('url');
         $linkData->expireTime = (int)$request->getParam('expireTime');
+        $linkData->passwordProtected = $request->getParam('password');
         
         // Check if input link data is valid
         if($this->linkValidator->isValid($linkData)){
