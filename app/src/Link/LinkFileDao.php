@@ -65,6 +65,7 @@ Class LinkFileDao implements LinkDaoInterface
      */
     public function getByWord($word)
     {
+
         $filePath = $this->buildFilePath($word);
         if (file_exists($filePath)) {
 
@@ -105,7 +106,7 @@ Class LinkFileDao implements LinkDaoInterface
     private function getFileContent($filePath)
     {
         $data = file_get_contents($filePath);
-        $formattedData = json_decode($data);
+        $formattedData = json_decode(base64_decode($data));
         return $formattedData;
     }
 
