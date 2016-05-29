@@ -33,23 +33,19 @@ final class HomeProcessAction
         $linkData->word = $request->getParam('word');
         $linkData->url = $request->getParam('url');
         $linkData->expireTime = (int)$request->getParam('expireTime');
-        $linkData->passwordProtected = $request->getParam('password');
+        $linkData->password = $request->getParam('password');
 
 
         // Check if input link data is valid
-        if($this->linkValidator->isValid($linkData)){
+        if ($this->linkValidator->isValid($linkData)) {
 
             // Send data to the Link Service
-            if($linkData->passwordProtected=='') {
-                $this->logger->info("ecco cosa è url: " . $linkData->url);
+            if ($linkData->password != '') {
+                $this->logger->info("ecco cosa è passwpord: " . $linkData->password);
             }
             $link = $this->linkService->create($linkData->word, $linkData);
-            if($link == false)
-                $this->logger->info("è falsoo!!");
 
-            $this->logger->info("ecco cosa è link: ".(string)$link->getWord());
-            if($link !== false){
-                $this->logger->info("link");
+            if ($link !== false) {
                 $router = $this->router;
                 return $response->withRedirect($router->pathFor('detail', ['id' => $linkData->word]));
             } else {
@@ -62,7 +58,7 @@ final class HomeProcessAction
                 $this->view->render($response, 'home.twig', $viewData);
                 return $response;
             }
-        
+
         } else {
             $viewData['url'] = $linkData->url;
             $viewData['word'] = $linkData->word;

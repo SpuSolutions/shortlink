@@ -70,9 +70,21 @@ Class LinkFileDao implements LinkDaoInterface
         if (file_exists($filePath)) {
 
             $fileData = $this->getFileContent($filePath);
-            
+
             // Build the link object
             $link = $this->linkFactory->create();
+            $url = $fileData->url;
+
+
+            if ($fileData->passwordProtected == true) {
+                //we need encryption
+                $password = 'password';
+                //TODO: same level than encryption
+                $link->setPasswordProtected($password);
+                $encryptClass = new Encryption($password);
+                $url = $encryptClass->decrypt($url, $password);
+
+            }
             $link->setWord($word);
             $link->setUrl($fileData->url);
             $link->setExpireTime($fileData->expireTime);

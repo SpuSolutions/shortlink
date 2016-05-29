@@ -49,7 +49,7 @@ class LinkService
         $link = $this->linkFactory->create();
         $link->setPasswordProtected($password);
 
-        if ($password !== ''){
+        if ($password != ''){
             //we need encryption
             $link->setPasswordProtected($password);
             $encryptClass = new Encryption($password);

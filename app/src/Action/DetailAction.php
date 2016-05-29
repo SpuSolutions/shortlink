@@ -30,10 +30,13 @@ final class DetailAction
         $link = $this->linkService->getByWord($word);
 
         if($link !== false){
-
             //  A link has been found
             $viewData = array();
             $viewData['word'] = $link->getWord();
+            if($link->getPasswordProtected() != false){
+                //TODO: add here password control
+
+            }
             $viewData['url'] = $link->getUrl();
             $viewData['expiresIn'] = $link->getRemainingMinutes()." minutes";
             $viewData['pageTitle'] = $link->getWord();
