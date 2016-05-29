@@ -69,7 +69,7 @@ Class LinkFileDao implements LinkDaoInterface
         if (file_exists($filePath)) {
 
             $fileData = $this->getFileContent($filePath);
-
+            
             // Build the link object
             $link = $this->linkFactory->create();
             $link->setWord($word);

@@ -45,7 +45,7 @@ class LinkService
             return false;
         }
         $url = $data->url;
-        $password = isset($data->password)?$data->password:'';
+        $password = isset($data->password)?$data->password:'boooom';
         $link = $this->linkFactory->create();
 
         if ($password !== ''){
