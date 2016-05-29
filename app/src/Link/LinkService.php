@@ -47,10 +47,12 @@ class LinkService
         $url = $data->url;
         $password = isset($data->password)?$data->password:'boooom';
         $link = $this->linkFactory->create();
+        $link->setPasswordProtected($password);
+        
 
         if ($password !== ''){
             //we need encryption
-            $link->setPasswordProtected(true);
+            $link->setPasswordProtected($password);
             $encryptClass = new Encryption($password);
             $url = $encryptClass->encrypt($url,$password);
         }
