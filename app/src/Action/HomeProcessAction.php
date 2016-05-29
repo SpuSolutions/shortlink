@@ -34,14 +34,16 @@ final class HomeProcessAction
         $linkData->url = $request->getParam('url');
         $linkData->expireTime = (int)$request->getParam('expireTime');
         $linkData->passwordProtected = $request->getParam('password');
-        
+        $this->logger->info("word: ". $linkData->word);
         // Check if input link data is valid
         if($this->linkValidator->isValid($linkData)){
+            $this->logger->info("dentro valid");
             
             // Send data to the Link Service
-            $link = $this->linkService->create($linkData->word, $linkData);        
-
+            $link = $this->linkService->create($linkData->word, $linkData);
+            $this->logger->info("ecco cosa è link: ".$link->getUrl());
             if($link !== false){
+                $this->logger->info("link");
                 $router = $this->router;
                 return $response->withRedirect($router->pathFor('detail', ['id' => $linkData->word]));
             } else {

@@ -33,6 +33,7 @@ Class LinkFileDao implements LinkDaoInterface
     {
         // If we have reached the maximum number of files allowed in the storage return false
         if ($this->getNumberOfFiles() > $this->settings['totalLinkFiles']) {
+
             return false;
         }
 
