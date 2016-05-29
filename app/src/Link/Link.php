@@ -2,137 +2,141 @@
 
 namespace App\Link;
 
-Class Link {
-	
-	private $word;
-	private $url; //might be encrypted
-	private $expireTime = 60;
-	private $passwordProtected = false;
-	private $created;
+Class Link
+{
 
-	/**
-	 * Link constructor.
+    private $word;
+    private $url; //might be encrypted
+    private $expireTime = 60;
+    private $passwordProtected = false;
+    private $created;
+
+    /**
+     * Link constructor.
      */
-	public function __construct()
-	{
-		$this->created = time();
-	}
+    public function __construct()
+    {
+        $this->created = time();
+    }
 
-	/**
-	 * @param $word
+    /**
+     * @param $word
      */
-	public function setWord($word)
-	{
-		$this->word = $word;
-	}
+    public function setWord($word)
+    {
+        $this->word = $word;
+    }
 
-	/**
-	 * @return mixed
+    /**
+     * @return mixed
      */
-	public function getWord()
-	{
-		return $this->word;
-	}
+    public function getWord()
+    {
+        return $this->word;
+    }
 
-	/**
-	 * @param $url
+    /**
+     * @param $url
      */
-	public function setUrl($url)
-	{
-		$this->url = $url;
-	}
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
 
-	/**
-	 * @return mixed
+    /**
+     * @return mixed
      */
-	public function getUrl()
-	{
-		return $this->url;
-	}
+    public function getUrl()
+    {
+        return $this->url;
+    }
 
-	/**
-	 * @param $expireTime
+    /**
+     * @param $expireTime
      */
-	public function setExpireTime($expireTime)
-	{
-		$this->expireTime = $expireTime;
-	}
+    public function setExpireTime($expireTime)
+    {
+        $this->expireTime = $expireTime;
+    }
 
-	/**
-	 * @return int
+    /**
+     * @return int
      */
-	public function getExpireTime()
-	{
-		return $this->expireTime;
-	}
+    public function getExpireTime()
+    {
+        return $this->expireTime;
+    }
 
-	/**
-	 * @param $created
+    /**
+     * @param $created
      */
-	public function setCreated($created)
-	{
-		$this->created = $created;
-	}
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
 
-	/**
-	 * @return int
+    /**
+     * @return int
      */
-	public function getCreated()
-	{
-		return $this->created;
-	}
+    public function getCreated()
+    {
+        return $this->created;
+    }
 
-	/**
-	 * @param $passwordProtected
+    /**
+     * @param $password
      */
-	public function setPasswordProtected($passwordProtected)
-	{
+    public function setPasswordProtected($password)
+    {
+        $protected = false;
+        if ($password != '') {
+            $protected = true;
+        }
+        $this->passwordProtected = $protected;
+    }
 
-		$this->passwordProtected = $passwordProtected;
-	}
-
-	/**
-	 * @return bool
+    /**
+     * @return bool
      */
-	public function getPasswordProtected()
-	{
-		return $this->passwordProtected;
-	}
+    public function getPasswordProtected()
+    {
+        return $this->passwordProtected;
+    }
 
-	/**
-	 * @return string
+    /**
+     * @return string
      */
-	public function __toString()
-	{
-		$link = [
-			'word' => $this->getWord(),
-			'url' => $this->getUrl(),
-			'expireTime' => $this->getExpireTime(),
-			'created' => $this->getCreated(),
-			'passwordProtected' => $this->getPasswordProtected()
-		];
-		return json_encode($link);
-	}
+    public function __toString()
+    {
+        $link = [
+            'word' => $this->getWord(),
+            'url' => $this->getUrl(),
+            'expireTime' => $this->getExpireTime(),
+            'created' => $this->getCreated(),
+            'passwordProtected' => $this->getPasswordProtected()
+        ];
+        return json_encode($link);
+    }
 
-	/**
-	 * @return bool
+    /**
+     * @return bool
      */
-	public function hasExpired()
-	{
-		return time() > $this->created + ($this->expireTime * 60);
-	}
+    public function hasExpired()
+    {
+        return time() > $this->created + ($this->expireTime * 60);
+    }
 
-	/**
-	 * @return float|int
+    /**
+     * @return float|int
      */
-	public function getRemainingMinutes()
-	{
-		$remainingMinutes = ceil(($this->created + $this->expireTime * 60 - time()) / 60);
-		if($remainingMinutes >= 0) {
-			return $remainingMinutes;
-		} else {
-			return 0;
-		}
-	}
+    public function getRemainingMinutes()
+    {
+        $remainingMinutes = ceil(($this->created + $this->expireTime * 60 - time()) / 60);
+        if ($remainingMinutes >= 0) {
+            return $remainingMinutes;
+        } else {
+            return 0;
+        }
+    }
 
 }
