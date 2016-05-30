@@ -67,6 +67,7 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($link);
 
     }
+    //TODO: questo test non mi torna tantissimo
     public function testCreatingWithPasswordGivenAWordAndReturnsALinkObject()
     {
         $word = "testWord";
@@ -86,6 +87,7 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase {
 
         $linkService = new LinkService($this->linkDao, $this->linkFactory);
         $link = $linkService->create($word, $data);
+        var_dump($link);
         $this->assertInstanceOf('App\Link\Link', $link);
     }
 

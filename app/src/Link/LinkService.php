@@ -20,7 +20,7 @@ class LinkService
     /**
      * Check if a link exists for the supplied $word
      * @param null $word
-     * @return bool
+     * @return Link|bool
      */
     public function getByWord($word = null)
     {
@@ -30,6 +30,15 @@ class LinkService
 
         // Return link if it hasn't expired and contains valid data
         if ($link !== false && !$link->hasExpired()){
+            if ($link->getPasswordProtected() == true) {
+                //we need encryption
+                $password = 'ppp';
+                //TODO: same level than encryption
+                $link->setPasswordProtected($password);
+                $encryptClass = new Encryption($password);
+                $link->setUrl($encryptClass->decrypt($link->getUrl(), $password));
+
+            }
             return $link;
         } else {
             return false;
