@@ -123,7 +123,7 @@ Class LinkFileDao implements LinkDaoInterface
         if (file_exists($filePath)) {
             unlink($filePath);
         }
-        return file_put_contents($filePath, $link);
+        return file_put_contents($filePath, base64_encode($link));
     }
 
     /**
