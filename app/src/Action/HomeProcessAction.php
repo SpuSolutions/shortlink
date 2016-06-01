@@ -34,7 +34,14 @@ final class HomeProcessAction
         $linkData->url = $request->getParam('url');
         $linkData->expireTime = (int)$request->getParam('expireTime');
         $linkData->password = $request->getParam('password');
-
+        
+        //  If the user forgets to add http:// to the beginning of the url, then add it in ourselves
+        $parts = parse_url($linkData->url);
+        if($parts){
+            if(!isset($parts["scheme"])){
+                $linkData->url = "http://$linkData->url";
+            }
+        }
 
         // Check if input link data is valid
         if ($this->linkValidator->isValid($linkData)) {
