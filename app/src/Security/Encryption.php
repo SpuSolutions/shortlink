@@ -17,7 +17,6 @@ class Encryption
     public function __construct(Array $settings)
     {
         $this->settings = $settings;
-
     }
     /**
      * https://paragonie.com/blog/2015/05/if-you-re-typing-word-mcrypt-into-your-code-you-re-doing-it-wrong

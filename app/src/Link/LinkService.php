@@ -31,12 +31,13 @@ class LinkService
 
         // Return link if it hasn't expired and contains valid data
         if ($link !== false && !$link->hasExpired()){
-            if ($link->getPasswordProtected() == true) {
+            
+            if ($link->getPasswordProtected()) {
                 //we need encryption
                 $password = 'ppp';
                 //TODO: same level than encryption
                 $link->setPasswordProtected($password);
-                $link->setUrl($this->encription->decrypt($link->getUrl(), $password));
+                $link->setUrl($this->encryption->decrypt($link->getUrl(), $password));
             }
             return $link;
         } else {

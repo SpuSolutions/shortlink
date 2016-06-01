@@ -58,7 +58,7 @@ $container['linkDao'] = function($c) {
 // Encryption
 $container['encryption'] = function($c) {
     $settings = $c->get('settings');
-    return new Encryption($settings['linkFileDao']);
+    return new Encryption($settings['encryption']);
 };
 
 // Link Service
