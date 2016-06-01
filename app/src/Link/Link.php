@@ -115,7 +115,7 @@ Class Link
             'created' => $this->getCreated(),
             'passwordProtected' => $this->getPasswordProtected()
         ];
-        return base64_encode(json_encode($link));
+        return json_encode($link);
     }
 
     /**
