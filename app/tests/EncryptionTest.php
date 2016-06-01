@@ -10,7 +10,6 @@ use App\Security\Encryption;
  */
 class EncryptionTest extends PHPUnit_Framework_TestCase
 {
-
     public function testEncryptDecryptWithAES_256_CBC()
     {
         $arraySettings = [
