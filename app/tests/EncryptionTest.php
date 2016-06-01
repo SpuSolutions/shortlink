@@ -1,6 +1,7 @@
 <?php
 
 use App\Security\Encryption;
+
 /**
  * Created by PhpStorm.
  * User: salvob
@@ -10,18 +11,19 @@ use App\Security\Encryption;
 class EncryptionTest extends PHPUnit_Framework_TestCase
 {
 
-    public function setUp()
+    public function testEncryptDecryptWithAES_256_CBC()
     {
-        $this->encriptionClass = new Encryption();
-    }
+        $arraySettings = [
+            'method' => "aes-256-cbc",
+            'hash_method' => "sha256",
+            'multibyte_key_len' => "8bit",
+            'mb_strlen' => "8bit"
+        ];
 
-
-    public function testEncryptDecrypt()
-    {
         $secretKey = "testPassword";
         $text = "testword";
 
-        $encryptClass = new Encryption($secretKey);
+        $encryptClass = new Encryption($arraySettings);
         $encryptedWord = $encryptClass->encrypt($text, $secretKey);
         $this->assertEquals($text, $encryptClass->decrypt($encryptedWord, $secretKey));
     }

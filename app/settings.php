@@ -32,7 +32,7 @@ return [
             'method' => "aes-256-cbc",
             'hash_method' => "sha256",
             'multibyte_key_len' => "8bit",
-            'mb_strlen' => "8bit",
+            'mb_strlen' => "8bit"
         ]
     ],
 ];
