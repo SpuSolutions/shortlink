@@ -1,6 +1,7 @@
 <?php
 return [
     'settings' => [
+        
         // Slim Settings
         'determineRouteBeforeAppMiddleware' => false,
         'displayErrorDetails' => true,
@@ -25,6 +26,13 @@ return [
         'linkFileDao' => [
             'upload_path' => __DIR__ . '/../uploads/',
             'totalLinkFiles' => 1000,
+        ],
+        
+        // Link Validator
+        'linkValidator' => [
+            'reservedWords' => ['about', 'new'],
+            'expireTime' => ['min' => 1, 'max' => 60],   // expire time in minutes
+            'word' => ['maxLength' => 10]
         ]
     ],
 ];

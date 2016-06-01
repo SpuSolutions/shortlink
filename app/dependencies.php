@@ -63,7 +63,8 @@ $container['linkService'] = function($c) {
 
 // Link Service
 $container['linkValidator'] = function($c) {
-    return new LinkValidator();
+    $settings = $c->get('settings');
+    return new LinkValidator($settings['linkValidator']);
 };
 
 
