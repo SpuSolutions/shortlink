@@ -2,15 +2,27 @@
 
 use App\Link\LinkService;
 use App\Link\LinkFactory;
+use App\Security\Encryption;
 
-class LinkServiceTest extends \PHPUnit_Framework_TestCase {
+class LinkServiceTest extends \PHPUnit_Framework_TestCase
+{
 
     private $linkDao;
+    private $linkFactory;
+    private $encryption;
+
 
     public function setUp()
     {
         $this->linkFactory = new LinkFactory();
         $this->linkDao = $this->getMockBuilder('App\Link\LinkDaoInterface')->setConstructorArgs([new App\Link\LinkFactory(), []])->getMock();
+        $arraySettings = [
+            'method' => "aes-256-cbc",
+            'hash_method' => "sha256",
+            'multibyte_key_len' => "8bit",
+            'mb_strlen' => "8bit"
+        ];
+        $this->encryption = new Encryption($arraySettings);
     }
 
     public function testGettingLinkGivenAnExistingWordReturnsALinkObject()
@@ -18,7 +30,7 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase {
         $word = "myWord";
 
         $this->linkDao->method("getByWord")->with("myWord")->will($this->returnCallback(
-            function() {
+            function () {
                 $l = $this->linkFactory->create();
                 $l->setWord("myWord");
                 $l->setUrl("http://www.google.com");
@@ -67,6 +79,7 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($link);
 
     }
+
     //TODO: questo test non mi torna tantissimo
     public function testCreatingWithPasswordGivenAWordAndReturnsALinkObject()
     {
@@ -75,17 +88,17 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase {
         $data = (object)['url' => 'http://www.google.com', 'expireTime' => 60, 'password' => $password];
 
         $this->linkDao->method("create")->withAnyParameters()->will($this->returnCallback(
-            function() {
+            function () {
                 $l = $this->linkFactory->create();
                 $l->setWord("testWord");
-                $e = new \App\Security\Encryption("testPassword");
+                $e = $this->encryption;
                 $l->setPasswordProtected(true);
                 $l->setUrl($e->encrypt("http://www.google.com", "testPassword"));
                 return $l;
             }
         ));
 
-        $linkService = new LinkService($this->linkDao, $this->linkFactory);
+        $linkService = new LinkService($this->linkDao, $this->linkFactory, $this->encryption);
         $link = $linkService->create($word, $data);
         var_dump($link);
         $this->assertInstanceOf('App\Link\Link', $link);
@@ -97,7 +110,7 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase {
         $data = (object)['url' => 'http://www.google.com', 'expireTime' => 60];
 
         $this->linkDao->method("create")->withAnyParameters()->will($this->returnCallback(
-            function() {
+            function () {
                 $l = $this->linkFactory->create();
                 $l->setWord("testWord");
                 $l->setUrl("http://www.google.com");
