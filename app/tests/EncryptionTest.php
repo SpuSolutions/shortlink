@@ -10,7 +10,6 @@ use App\Security\Encryption;
  */
 class EncryptionTest extends PHPUnit_Framework_TestCase
 {
-
     public function testEncryptDecryptWithAES_256_CBC()
     {
         $arraySettings = [
@@ -19,11 +18,12 @@ class EncryptionTest extends PHPUnit_Framework_TestCase
             'multibyte_key_len' => "8bit",
             'mb_strlen' => "8bit"
         ];
+        $encryptClass = new Encryption($arraySettings);
 
         $secretKey = "testPassword";
         $text = "testword";
 
-        $encryptClass = new Encryption($arraySettings);
+        
         $encryptedWord = $encryptClass->encrypt($text, $secretKey);
         $this->assertEquals($text, $encryptClass->decrypt($encryptedWord, $secretKey));
     }

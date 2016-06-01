@@ -3,7 +3,7 @@
 namespace App\Link;
 
 use App\Security\Encryption;
-use Exception;
+
 
 class LinkService
 {
@@ -11,7 +11,7 @@ class LinkService
     private $linkFactory;
     private $encryption;
 
-    public function __construct(LinkDaoInterface $linkDao, LinkFactory $linkFactory, Encryption $encryption)
+    public function __construct(LinkDaoInterface $linkDao, LinkFactory $linkFactory, Encryption $encryption=null)
     {
         $this->linkDao = $linkDao;
         $this->linkFactory = $linkFactory;
@@ -36,9 +36,7 @@ class LinkService
                 $password = 'ppp';
                 //TODO: same level than encryption
                 $link->setPasswordProtected($password);
-                $encryptClass = new Encryption($password);
-                $link->setUrl($encryptClass->decrypt($link->getUrl(), $password));
-
+                $link->setUrl($this->encription->decrypt($link->getUrl(), $password));
             }
             return $link;
         } else {
@@ -62,8 +60,7 @@ class LinkService
         if ($password != ''){
             //we need encryption
             $link->setPasswordProtected($password);
-            $encryptClass = new Encryption($password);
-            $url = $encryptClass->encrypt($url,$password);
+            $url = $this->encryption->encrypt($url,$password);
         }
         $link->setWord($word);
         $link->setUrl($url);
