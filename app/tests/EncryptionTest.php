@@ -10,9 +10,12 @@ use App\Security\Encryption;
 class EncryptionTest extends PHPUnit_Framework_TestCase
 {
 
-    /**
-     *
-     */
+    public function setUp()
+    {
+        $this->encriptionClass = new Encryption();
+    }
+
+
     public function testEncryptDecrypt()
     {
         $secretKey = "testPassword";

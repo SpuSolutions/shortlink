@@ -4,6 +4,7 @@ use App\Link\LinkService;
 use App\Link\LinkFactory;
 use App\Link\LinkFileDao;
 use App\Link\LinkValidator;
+use App\Security\Encryption;
 
 // DIC configuration
 $container = $app->getContainer();
@@ -54,14 +55,21 @@ $container['linkDao'] = function($c) {
     return new LinkFileDao($linkFactory, $settings['linkFileDao']);
 };
 
+// Encryption
+$container['encryption'] = function($c) {
+    $settings = $c->get('settings');
+    return new Encryption($settings['linkFileDao']);
+};
+
 // Link Service
 $container['linkService'] = function($c) {
     $linkDao = $c->get('linkDao');
     $linkFactory = $c->get('linkFactory');
-    return new LinkService($linkDao, $linkFactory);
+    $encryption = $c->get('encryption');
+    return new LinkService($linkDao, $linkFactory, $encryption);
 };
 
-// Link Service
+// Link Validator
 $container['linkValidator'] = function($c) {
     return new LinkValidator();
 };

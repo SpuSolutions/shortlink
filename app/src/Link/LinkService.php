@@ -7,14 +7,15 @@ use Exception;
 
 class LinkService
 {
-
     private $linkDao;
     private $linkFactory;
+    private $encryption;
 
-    public function __construct(LinkDaoInterface $linkDao, LinkFactory $linkFactory)
+    public function __construct(LinkDaoInterface $linkDao, LinkFactory $linkFactory, Encryption $encryption)
     {
         $this->linkDao = $linkDao;
         $this->linkFactory = $linkFactory;
+        $this->encryption = $encryption;
     }
 
     /**
