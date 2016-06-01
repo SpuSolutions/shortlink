@@ -6,7 +6,7 @@ Class Link
 {
 
     private $word;
-    private $url; //might be encrypted
+    private $url; //might be encrypted!
     private $expireTime = 60;
     private $passwordProtected = false;
     private $created;
