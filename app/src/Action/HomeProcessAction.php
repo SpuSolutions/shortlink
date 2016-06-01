@@ -48,7 +48,7 @@ final class HomeProcessAction
 
             // Send data to the Link Service
             if ($linkData->password != '') {
-                $this->logger->info("ecco cosa è passwpord: " . $linkData->password);
+                $this->logger->info("ecco cosa è password: " . $linkData->password);
             }
             $link = $this->linkService->create($linkData->word, $linkData);
 

@@ -35,8 +35,6 @@ class LinkService
             if ($link->getPasswordProtected()) {
                 //we need encryption
                 $password = 'ppp';
-                //TODO: same level than encryption
-                $link->setPasswordProtected($password);
                 $link->setUrl($this->encryption->decrypt($link->getUrl(), $password));
             }
             return $link;

@@ -9,6 +9,17 @@
                     <h1 class="text-center">{{ word }}</h1>
                     <p class="text-center">{{ base_url() }}/{{ word }}</p>
                     <div>Redirect in <span id="redirectCountdown"></span> seconds!</div>
+                    {% if (passwordProtected) %}
+                        <div class="form-group">
+                            <label for="pwd">Password:</label>
+                            <input type="password" class="form-control" id="pwd">
+                        </div>
+                        <button id="checkPasswordButton" data-word="{{ word }}" type="submit"
+                                class="btn btn-default btn-sm btn-success btn-block">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            Submit
+                        </button>
+                    {% endif %}
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <p><strong>Url:</strong> <a href="https://anon.to/?{{ url }}" target="_blank">{{ url }}</a>

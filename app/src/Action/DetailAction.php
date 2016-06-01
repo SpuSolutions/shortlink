@@ -33,16 +33,14 @@ final class DetailAction
             //  A link has been found
             $viewData = array();
             $viewData['word'] = $link->getWord();
-            if($link->getPasswordProtected() != false){
-                //TODO: add here password control
-
-            }
             $viewData['url'] = $link->getUrl();
             $viewData['expiresIn'] = $link->getRemainingMinutes()." minutes";
             $viewData['pageTitle'] = $link->getWord();
-            $this->view->render($response, 'detail.twig', $viewData);
+            $viewData['passwordProtected'] = $link->getPasswordProtected();
 
+            $this->view->render($response, 'detail.twig', $viewData);
             return $response;
+
 
 
         } else {
