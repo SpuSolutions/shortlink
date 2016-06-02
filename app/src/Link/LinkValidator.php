@@ -52,11 +52,9 @@ Class LinkValidator implements ValidatorInterface
         }
 
         //  Compare passwords
-        if(strcmp($link->password, $link->passwordConfirm ) != 0){
+        if(isset($link->password) && strcmp($link->password, $link->passwordConfirm ) != 0){
             $this->setError('word', 'Passwords must be equals');
         }
-
-
 
         return empty($this->getErrors());
     }

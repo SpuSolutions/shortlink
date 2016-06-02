@@ -188,7 +188,14 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase
         $password1 = "firstpassword";
         $password2 = "secondpassword";
 
+        $word = "test";
+        $url = "http://www.google.com";
+        $expireTime = "60";
+
         $link = new stdClass();
+        $link->word = $word;
+        $link->url = $url;
+        $link->expireTime = $expireTime;
         $link->password = $password1;
         $link->passwordConfirm = $password2;
 
@@ -201,9 +208,17 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase
         $password1 = "password";
         $password2 = "password";
 
+        $word = "test";
+        $url = "http://www.google.com";
+        $expireTime = 60;
+
         $link = new stdClass();
+        $link->word = $word;
+        $link->url = $url;
+        $link->expireTime = $expireTime;
         $link->password = $password1;
         $link->passwordConfirm = $password2;
+
 
         $linkValidator = new LinkValidator($this->settings);
         $this->assertTrue($linkValidator->isValid($link));
