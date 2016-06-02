@@ -29,16 +29,16 @@ final class DetailAction
 
         $link = $this->linkService->getByWord($word);
 
-        if($link !== false){
-
+        if ($link !== false) {
             //  A link has been found
             $viewData = array();
             $viewData['word'] = $link->getWord();
             $viewData['url'] = $link->getUrl();
-            $viewData['expiresIn'] = $link->getRemainingMinutes()." minutes";
+            $viewData['expiresIn'] = $link->getRemainingMinutes();
             $viewData['pageTitle'] = $link->getWord();
-            $this->view->render($response, 'detail.twig', $viewData);
+            $viewData['passwordProtected'] = $link->getPasswordProtected();
 
+            $this->view->render($response, 'detail.twig', $viewData);
             return $response;
 
 
@@ -46,8 +46,27 @@ final class DetailAction
 
             //  Link doesn't exist or has expired
             $this->view->render($response, '404.twig', ["message" => "The link you were looking for does not exist or may have expired."]);
-            $this->logger->error("The link you were looking for does not exist: ". $args['id']);
+            $this->logger->error("The link you were looking for does not exist: " . $args['id']);
             return $response->withStatus(404)->withHeader('Content-Type', 'text/html');
         }
+    }
+
+    public function processPassword(Request $request, Response $response, $args)
+    {
+
+        $password = $request->getParam('password');
+        $word = $args["id"];
+
+        $data = [
+            "word" => $request->getParam('word'),
+            "password" => $password
+        ];
+
+        $link = $this->linkService->getByWord($word, $password);
+
+        $response->getBody()->write(json_encode($link->getUrl() != false ? ["url" => $link->getUrl(), "expireTime" => $link->getRemainingMinutes()] : false));
+
+        return $response;
+
     }
 }

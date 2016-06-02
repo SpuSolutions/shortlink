@@ -33,14 +33,27 @@ final class HomeProcessAction
         $linkData->word = $request->getParam('word');
         $linkData->url = $request->getParam('url');
         $linkData->expireTime = (int)$request->getParam('expireTime');
-        
-        // Check if input link data is valid
-        if($this->linkValidator->isValid($linkData)){
-            
-            // Send data to the Link Service
-            $link = $this->linkService->create($linkData->word, $linkData);        
+        $linkData->password = $request->getParam('password');
+        $linkData->passwordConfirm = $request->getParam('passwordConfirm');
 
-            if($link !== false){
+        //  If the user forgets to add http:// to the beginning of the url, then add it in ourselves
+        $parts = parse_url($linkData->url);
+        if($parts){
+            if(!isset($parts["scheme"])){
+                $linkData->url = "http://$linkData->url";
+            }
+        }
+
+        // Check if input link data is valid
+        if ($this->linkValidator->isValid($linkData)) {
+
+            // Send data to the Link Service
+            if ($linkData->password != '') {
+                $this->logger->info("ecco cosa è password: " . $linkData->password);
+            }
+            $link = $this->linkService->create($linkData->word, $linkData);
+
+            if ($link !== false) {
                 $router = $this->router;
                 return $response->withRedirect($router->pathFor('detail', ['id' => $linkData->word]));
             } else {
@@ -53,7 +66,7 @@ final class HomeProcessAction
                 $this->view->render($response, 'home.twig', $viewData);
                 return $response;
             }
-        
+
         } else {
             $viewData['url'] = $linkData->url;
             $viewData['word'] = $linkData->word;

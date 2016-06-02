@@ -1,6 +1,7 @@
 <?php
 return [
     'settings' => [
+        
         // Slim Settings
         'determineRouteBeforeAppMiddleware' => false,
         'displayErrorDetails' => true,
@@ -18,13 +19,28 @@ return [
         // monolog settings
         'logger' => [
             'name' => 'app',
-            'path' => __DIR__ . '/../log/app.log',
+            'path' =>dirname( __DIR__) . '/log/app.log',
         ],
 
         // Link File Data Access Object
         'linkFileDao' => [
-            'upload_path' => __DIR__ . '/../uploads/',
+            'upload_path' => dirname(__DIR__) . '/uploads/',
             'totalLinkFiles' => 1000,
+        ],
+        
+        // Link Validator
+        'linkValidator' => [
+            'reservedWords' => ['about', 'new'],
+            'expireTime' => ['min' => 1, 'max' => 60],   // expire time in minutes
+            'word' => ['maxLength' => 10]
+        ],
+        
+        // Encryption settings
+        'encryption' => [
+            'method' => "aes-256-cbc",
+            'hash_method' => "sha256",
+            'multibyte_key_len' => "8bit",
+            'mb_strlen' => "8bit"
         ]
     ],
 ];
