@@ -1,7 +1,6 @@
 <?php
 
 use App\Link\LinkFileDao;
-use App\Link\LinkService;
 use App\Link\LinkFactory;
 
 class LinkFileDaoTest extends \PHPUnit_Framework_TestCase {

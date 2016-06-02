@@ -12,19 +12,12 @@ use Exception;
 
 class Encryption
 {
+    private $settings;
 
-    private $secretKey;
-
-    const METHOD = 'aes-256-cbc';
-    private $method = "aes-256-cbc";
-
-
-    public function __construct($secretKey)
+    public function __construct(Array $settings)
     {
-        $this->secretKey = $secretKey;
-
+        $this->settings = $settings;
     }
-
     /**
      * https://paragonie.com/blog/2015/05/if-you-re-typing-word-mcrypt-into-your-code-you-re-doing-it-wrong
      * @param $message
@@ -32,18 +25,19 @@ class Encryption
      * @return string
      * @throws Exception
      */
-    public static function encrypt($message, $key)
+    public function encrypt($message, $key)
     {
-        if (mb_strlen($key, '8bit') !== 32) {
-            $key = hash("sha256", $key);
+        //multibyte string len check
+        if (mb_strlen($key, $this->settings['multibyte_key_len']) !== $this->settings['mb_strlen']) {
+            $key = hash($this->settings['hash_method'], $key);
             //throw new Exception("Needs a 256-bit key!");
         }
-        $ivsize = openssl_cipher_iv_length(self::METHOD);
+        $ivsize = openssl_cipher_iv_length($this->settings['method']);
         $iv = openssl_random_pseudo_bytes($ivsize);
 
         $ciphertext = openssl_encrypt(
             $message,
-            self::METHOD,
+            $this->settings['method'],
             $key,
             OPENSSL_RAW_DATA,
             $iv
@@ -57,19 +51,19 @@ class Encryption
      * @param $key
      * @return string
      */
-    public static function decrypt($message, $key)
+    public function decrypt($message, $key)
     {
-        if (mb_strlen($key, '8bit') !== 32) {
-            $key = hash("sha256", $key);
+        if (mb_strlen($key, $this->settings['multibyte_key_len']) !== $this->settings['mb_strlen']) {
+            $key = hash($this->settings['hash_method'], $key);
             //throw new Exception("Needs a 256-bit key!");
         }
-        $ivsize = openssl_cipher_iv_length(self::METHOD);
-        $iv = mb_substr($message, 0, $ivsize, '8bit');
-        $ciphertext = mb_substr($message, $ivsize, null, '8bit');
+        $ivsize = openssl_cipher_iv_length($this->settings['method']);
+        $iv = mb_substr($message, 0, $ivsize, $this->settings['multibyte_key_len']);
+        $ciphertext = mb_substr($message, $ivsize, null, $this->settings['multibyte_key_len']);
 
         return openssl_decrypt(
             $ciphertext,
-            self::METHOD,
+            $this->settings['method'],
             $key,
             OPENSSL_RAW_DATA,
             $iv

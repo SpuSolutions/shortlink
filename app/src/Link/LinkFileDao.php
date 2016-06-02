@@ -73,13 +73,18 @@ Class LinkFileDao implements LinkDaoInterface
 
             // Build the link object
             $link = $this->linkFactory->create();
-            $url = $fileData->url;
 
             $link->setWord($word);
-            $link->setUrl($fileData->url);
             $link->setExpireTime($fileData->expireTime);
             $link->setCreated($fileData->created);
             $link->setPasswordProtected($fileData->passwordProtected);
+            
+            //  Base64 decode fields if the link has password protection
+            if($link->getPasswordProtected()){
+                $link->setUrl(base64_decode($fileData->url));
+            } else {
+                $link->setUrl($fileData->url);
+            }
 
             return $link;
 
@@ -108,7 +113,7 @@ Class LinkFileDao implements LinkDaoInterface
     private function getFileContent($filePath)
     {
         $data = file_get_contents($filePath);
-        $formattedData = json_decode(base64_decode($data));
+        $formattedData = json_decode($data);
         return $formattedData;
     }
 
@@ -123,7 +128,14 @@ Class LinkFileDao implements LinkDaoInterface
         if (file_exists($filePath)) {
             unlink($filePath);
         }
-        return file_put_contents($filePath, base64_encode($link));
+        
+        //  Base64 encode fields if the link has password protection
+        if($link->getPasswordProtected()){
+            $url = $link->getUrl();
+            $link->setUrl(base64_encode($url));
+        }
+        
+        return file_put_contents($filePath, $link);
     }
 
     /**

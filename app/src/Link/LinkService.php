@@ -3,18 +3,19 @@
 namespace App\Link;
 
 use App\Security\Encryption;
-use Exception;
+
 
 class LinkService
 {
-
     private $linkDao;
     private $linkFactory;
+    private $encryption;
 
-    public function __construct(LinkDaoInterface $linkDao, LinkFactory $linkFactory)
+    public function __construct(LinkDaoInterface $linkDao, LinkFactory $linkFactory, Encryption $encryption = null)
     {
         $this->linkDao = $linkDao;
         $this->linkFactory = $linkFactory;
+        $this->encryption = $encryption;
     }
 
     /**
@@ -22,22 +23,20 @@ class LinkService
      * @param null $word
      * @return Link|bool
      */
-    public function getByWord($word = null)
+    public function getByWord($word = null, $password = null)
     {
-        if ($word === null || empty($word)){ return false; }
+        if ($word === null || empty($word)) {
+            return false;
+        }
 
         $link = $this->linkDao->getByWord($word);
 
         // Return link if it hasn't expired and contains valid data
-        if ($link !== false && !$link->hasExpired()){
-            if ($link->getPasswordProtected() == true) {
-                //we need encryption
-                $password = 'ppp';
-                //TODO: same level than encryption
-                $link->setPasswordProtected($password);
-                $encryptClass = new Encryption($password);
-                $link->setUrl($encryptClass->decrypt($link->getUrl(), $password));
+        if ($link !== false && !$link->hasExpired()) {
 
+            if ($link->getPasswordProtected()) {
+                //we need encryption
+                $link->setUrl($this->encryption->decrypt($link->getUrl(), $password));
             }
             return $link;
         } else {
@@ -46,23 +45,22 @@ class LinkService
     }
 
     /**
-     * 	Create a new link
+     *    Create a new link
      */
     public function create($word = null, $data = null)
     {
-        if ($word === null || empty($word) || empty((array) $data) || !is_object($data)){
+        if ($word === null || empty($word) || empty((array)$data) || !is_object($data)) {
             return false;
         }
         $url = $data->url;
-        $password = isset($data->password)?$data->password:'';
+        $password = isset($data->password) ? $data->password : '';
         $link = $this->linkFactory->create();
         $link->setPasswordProtected($password);
 
-        if ($password != ''){
+        if ($password != '') {
             //we need encryption
             $link->setPasswordProtected($password);
-            $encryptClass = new Encryption($password);
-            $url = $encryptClass->encrypt($url,$password);
+            $url = $this->encryption->encrypt($url, $password);
         }
         $link->setWord($word);
         $link->setUrl($url);
