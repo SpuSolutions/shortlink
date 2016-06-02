@@ -80,7 +80,50 @@ class LinkServiceTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    //TODO: questo test non mi torna tantissimo
+    public function testGettingLinkWithCorrectPasswordReturnsALinkObject()
+    {
+        $word = "myWord";
+        $password = "testPassword";
+
+        $this->linkDao->method("getByWord")->with("myWord")->will($this->returnCallback(
+            function () {
+                $l = $this->linkFactory->create();
+                $l->setWord("testWord");
+                $e = $this->encryption;
+                $l->setPasswordProtected(true);
+                $l->setUrl($e->encrypt("http://www.google.com", "testPassword"));
+                return $l;
+            }
+        ));
+
+        $linkService = new LinkService($this->linkDao, $this->linkFactory, $this->encryption);
+        $link = $linkService->getByWord($word, "testPassword");
+        $this->assertEquals('http://www.google.com', $link->getUrl());
+
+    }
+
+    public function testGettingLinkWithWrongPasswordReturnsALinkObject()
+    {
+        $word = "myWord";
+        $password = "testPassword";
+
+        $this->linkDao->method("getByWord")->with($word)->will($this->returnCallback(
+            function () {
+                $l = $this->linkFactory->create();
+                $l->setWord("testWord");
+                $e = $this->encryption;
+                $l->setPasswordProtected(true);
+                $l->setUrl($e->encrypt("http://www.google.com", "testPassword"));
+                return $l;
+            }
+        ));
+
+        $linkService = new LinkService($this->linkDao, $this->linkFactory, $this->encryption);
+        $link = $linkService->getByWord($word, "WrongPassword");
+        $this->assertFalse($link->getUrl());
+
+    }
+
     public function testCreatingWithPasswordGivenAWordAndReturnsALinkObject()
     {
         $word = "testWord";

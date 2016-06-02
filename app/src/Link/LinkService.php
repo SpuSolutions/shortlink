@@ -21,6 +21,7 @@ class LinkService
     /**
      * Check if a link exists for the supplied $word
      * @param null $word
+     * @param null $password
      * @return Link|bool
      */
     public function getByWord($word = null, $password = null)
