@@ -1,12 +1,14 @@
 window.onload = function () {
 
     var display = document.querySelector('#redirectCountdown'),
+        pswCheck = document.querySelector('#div_input'),
+
         timer;
 
-    if(display){
+    if (display) {
         timer = new CountDownTimer(3);
         timer.onTick(format).start();
-    }    
+    }
 
     function restart() {
         if (this.expired()) {
@@ -15,6 +17,7 @@ window.onload = function () {
             }, 1000);
         }
     }
+
     function format(minutes, seconds) {
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds;
@@ -22,23 +25,39 @@ window.onload = function () {
     }
 };
 
+var countClicks = 0;
 
 
-$('#checkPasswordButton').click(function() {
-    findById($(this).data('word'), $('#pwd').val());
+$('#checkPasswordButton').click(function () {
+    countClicks++;
+    findById($(this).data('word'), $('#pwd').val(), countClicks);
+
 });
 
 // The root URL for the RESTful services
 var rootURL = "http://localhost/shortlink";
 
-function findById(id, password) {
-    console.log(id +" aaaaaa   " + password);
+function findById(id, password, countClicks) {
+
     $.ajax({
         type: 'POST',
-        url: rootURL+'/' + id,
+        data: {"password": password, "word": id},
+        url: rootURL + '/' + id,
         dataType: "json",
-        success: function(data){
-            console.log(password);
+        success: function (data) {
+            if (data != false) {
+                $("#div_input").remove();
+
+                $("#url_info").attr("href", data.url);
+                $("#url_info a").text(data.url);
+                $("#expireTime_info em").text(data.expireTime);
+                $("#div_info").removeClass("hidden");
+            }
+            else if (countClicks >= 3) {
+                $("#div_input").remove();
+                $(".alert-danger").removeClass("hidden");
+            }
+
 
         }
     });

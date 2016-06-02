@@ -9,4 +9,4 @@ $app->get('/about', App\Action\AboutAction::class);
 
 $app->get('/{id}', App\Action\DetailAction::class)->setName('detail');
 
-$app->post('/{id}', App\Action\DetailProcessAction::class);
+$app->post('/{id}', 'App\Action\DetailAction:processPassword');

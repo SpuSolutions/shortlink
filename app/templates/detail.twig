@@ -1,7 +1,6 @@
 {% extends "layout/layout.twig" %}
 
 {% block body %}
-
     <section class="section" style="margin-top:100px;">
         <div class="container">
             <div class="row">
@@ -9,27 +8,42 @@
                     <h1 class="text-center">{{ word }}</h1>
                     <p class="text-center">{{ base_url() }}/{{ word }}</p>
                     <div>Redirect in <span id="redirectCountdown"></span> seconds!</div>
-                    {% if (passwordProtected) %}
-                        <div class="form-group">
-                            <label for="pwd">Password:</label>
-                            <input type="password" class="form-control" id="pwd">
-                        </div>
-                        <button id="checkPasswordButton" data-word="{{ word }}" type="submit"
-                                class="btn btn-default btn-sm btn-success btn-block">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                            Submit
-                        </button>
-                    {% endif %}
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <p><strong>Url:</strong> <a href="https://anon.to/?{{ url }}" target="_blank">{{ url }}</a>
-                            </p>
-                            <p><strong>Expires in:</strong> {{ expiresIn }}</p>
+                            {% if (passwordProtected) %}
+                                <div class="alert alert-danger hidden" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                    You entered a wrong password three times! You shall not pass!
+                                </div>
+                                <div id="div_input">
+                                    <div class="form-group">
+                                        <label for="pwd">Password:</label>
+                                        <input type="password" class="form-control" id="pwd">
+                                    </div>
+                                    <button id="checkPasswordButton" data-word="{{ word }}" type="submit"
+                                            class="btn btn-default btn-sm btn-success btn-block">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                        Submit
+                                    </button>
+                                </div>
+                                <div id="div_info" class="hidden">
+                                    <label for="url_info"><strong>Url:</strong></label>
+                                    <p id="url_info"><a href="https://anon.to/?{{ url }}" target="_blank"></a></p>
+                                    <p id="expireTime_info"><strong>Expires in:</strong> <em></em>
+                                        minutes</p>
+                                </div>
+                            {% else %}
+                                <div id="div_info">
+                                    <p><strong>Url:</strong> <a href="https://anon.to/?{{ url }}"
+                                                                target="_blank">{{ url }}</a></p>
+                                    <p><strong>Expires in:</strong> {{ expiresIn }} minutes</p>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
 {% endblock body %}
