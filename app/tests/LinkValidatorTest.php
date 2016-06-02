@@ -2,8 +2,9 @@
 
 use App\Link\LinkValidator;
 
-class LinkValidatorTest extends \PHPUnit_Framework_TestCase {
-    
+class LinkValidatorTest extends \PHPUnit_Framework_TestCase
+{
+
     public function setUp()
     {
         $this->settings = [
@@ -40,7 +41,6 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase {
         $link->expireTime = $expireTime;
 
         $linkValidator = new LinkValidator($this->settings);
-
         $this->assertFalse($linkValidator->isValid($link));
     }
 
@@ -70,8 +70,8 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase {
         $linkValidator = new LinkValidator($this->settings);
         $this->assertTrue($linkValidator->isValid($link));
     }
-    
-    
+
+
     public function addAddingInvalidUrlAndTestingValidityReturnsFalseDataProvider()
     {
         return [
@@ -94,12 +94,12 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase {
         $link->word = $word;
         $link->url = $url;
         $link->expireTime = $expireTime;
-        
+
         $linkValidator = new LinkValidator($this->settings);
         $this->assertFalse($linkValidator->isValid($link));
     }
-    
-    
+
+
     public function testAddingValidUrlAndTestingValidityReturnsTrue()
     {
         $word = "test";
@@ -110,7 +110,7 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase {
         $link->word = $word;
         $link->url = $url;
         $link->expireTime = $expireTime;
-        
+
         $linkValidator = new LinkValidator($this->settings);
         $this->assertTrue($linkValidator->isValid($link));
     }
@@ -125,8 +125,8 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase {
             ['-12'],
         ];
     }
-    
-    
+
+
     /**
      * @dataProvider addAddingInvalidExpireTimeAndTestingValidityReturnsFalseDataProvider
      */
@@ -140,12 +140,12 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase {
         $link->word = $word;
         $link->url = $url;
         $link->expireTime = $expireTime;
-        
+
         $linkValidator = new LinkValidator($this->settings);
         $this->assertFalse($linkValidator->isValid($link));
     }
-    
-    
+
+
     public function testAddingValidExpireTimeAndTestingValidityReturnsTrue()
     {
         $word = "test";
@@ -156,7 +156,7 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase {
         $link->word = $word;
         $link->url = $url;
         $link->expireTime = $expireTime;
-        
+
         $linkValidator = new LinkValidator($this->settings);
         $this->assertFalse($linkValidator->isValid($link));
     }
@@ -245,23 +245,23 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase {
 //    }
 
     public function testCreatingNewLinkWithoutAddingPropertiesAndTestingValidityReturnsFalse()
-    {        
+    {
         $link = new stdClass();
         $link->word = null;
         $link->url = null;
         $link->expireTime = null;
-        
+
         $linkValidator = new LinkValidator($this->settings);
         $this->assertFalse($linkValidator->isValid($link));
     }
-    
+
     public function testCreatingNewLinkWithReservedWordAndTestingValidityReturnsFalse()
-    {        
+    {
         $link = new stdClass();
         $link->word = 'about';
         $link->url = 'http://www.google.com';
         $link->expireTime = 60;
-        
+
         $linkValidator = new LinkValidator($this->settings);
         $this->assertFalse($linkValidator->isValid($link));
     }
