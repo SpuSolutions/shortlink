@@ -51,6 +51,13 @@ Class LinkValidator implements ValidatorInterface
             $this->setError('expireTime', 'Expire time is not valid. Must be between 1 and 60');
         }
 
+        //  Compare passwords
+        if(strcmp($link->password, $link->passwordConfirm ) != 0){
+            $this->setError('word', 'Passwords must be equals');
+        }
+
+
+
         return empty($this->getErrors());
     }
 

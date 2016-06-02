@@ -161,89 +161,6 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($linkValidator->isValid($link));
     }
 
-//    public function addAddingInvalidCreatedTimeAndTestingValidityReturnsFalseDataProvider()
-//    {
-//        return [
-//            ['1212d12f12f'],
-//            ['123456789'],
-//            [123456789],
-//            [12345678910]
-//        ];
-//    }
-//    
-//    
-//
-//    /**
-//     * @dataProvider addAddingInvalidCreatedTimeAndTestingValidityReturnsFalseDataProvider
-//     */
-//    public function testAddingInvalidCreatedTimeAndTestingValidityReturnsFalse($created)
-//    {
-//        $word = "test";
-//        $url = "http://www.google.com";
-//        $expireTime = 60;
-//
-//
-//        $this->link->setWord($word);
-//        $this->link->setUrl($url);
-//        $this->link->setExpireTime($expireTime);
-//        $this->link->setCreated($created);
-//        
-//        $linkValidator = new LinkValidator();
-//        $this->assertFalse($linkValidator->isValid($this->link));
-//    }
-//    
-//    
-//    public function testAddingValidCreatedTimeAndTestingValidityReturnsTrue()
-//    {
-//        $word = "test";
-//        $url = "http://www.google.com";
-//        $expireTime = 60;
-//        $created = 1463504590;
-//
-//
-//        $this->link->setWord($word);
-//        $this->link->setUrl($url);
-//        $this->link->setExpireTime($expireTime);
-//        $this->link->setCreated($created);
-//        
-//        $linkValidator = new LinkValidator();
-//        $this->assertTrue($linkValidator->isValid($this->link));
-//    }
-//
-//    public function testAddingInvalidPasswordProctedAndTestingValidityReturnsFalse()
-//    {
-//        $word = "test";
-//        $url = "http://www.google.com";
-//        $expireTime = 60;
-//        $passwordProtected = "false";
-//
-//
-//        $this->link->setWord($word);
-//        $this->link->setUrl($url);
-//        $this->link->setExpireTime($expireTime);
-//        $this->link->setPasswordProtected($passwordProtected);
-//        
-//        $linkValidator = new LinkValidator();
-//        $this->assertFalse($linkValidator->isValid($this->link));
-//    }
-//
-//    public function testAddingValidPasswordProctedAndTestingValidityReturnsTrue()
-//    {
-//        $word = "test";
-//        $url = "http://www.google.com";
-//        $expireTime = 60;
-//        $passwordProtected = false;
-//
-//
-//        $this->link->setWord($word);
-//        $this->link->setUrl($url);
-//        $this->link->setExpireTime($expireTime);
-//        $this->link->setPasswordProtected($passwordProtected);
-//        
-//        $linkValidator = new LinkValidator();
-//        $this->assertTrue($linkValidator->isValid($this->link));
-//    }
-
     public function testCreatingNewLinkWithoutAddingPropertiesAndTestingValidityReturnsFalse()
     {
         $link = new stdClass();
@@ -265,5 +182,31 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase
         $linkValidator = new LinkValidator($this->settings);
         $this->assertFalse($linkValidator->isValid($link));
     }
+
+    public function testAddingComparePasswordsReturnsFalse()
+    {
+        $password1 = "firstpassword";
+        $password2 = "secondpassword";
+
+        $link = new stdClass();
+        $link->password = $password1;
+        $link->passwordConfirm = $password2;
+
+        $linkValidator = new LinkValidator($this->settings);
+        $this->assertFalse($linkValidator->isValid($link));
+    } 
+
+    public function testAddingComparePasswordsReturnsTrue()
+    {
+        $password1 = "password";
+        $password2 = "password";
+
+        $link = new stdClass();
+        $link->password = $password1;
+        $link->passwordConfirm = $password2;
+
+        $linkValidator = new LinkValidator($this->settings);
+        $this->assertTrue($linkValidator->isValid($link));
+    }      
 
 }

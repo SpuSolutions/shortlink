@@ -34,7 +34,8 @@ final class HomeProcessAction
         $linkData->url = $request->getParam('url');
         $linkData->expireTime = (int)$request->getParam('expireTime');
         $linkData->password = $request->getParam('password');
-        
+        $linkData->passwordConfirm = $request->getParam('passwordConfirm');
+
         //  If the user forgets to add http:// to the beginning of the url, then add it in ourselves
         $parts = parse_url($linkData->url);
         if($parts){
