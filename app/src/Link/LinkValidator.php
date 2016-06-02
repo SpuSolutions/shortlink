@@ -20,9 +20,27 @@ Class LinkValidator implements ValidatorInterface {
         //  Empty any errors from a previous validation
         $this->errors = [];
         
+        /*
         if(!ctype_alpha($link->word) || empty($link->word) || strlen($link->word) > $this->settings['word']['maxLength']){
             $this->setError('word', 'Word: '.$link->word.' is not valid. Must contain only letters and be shorter than '.$this->settings['word']['maxLength'].' characters.');
         }
+        */
+
+        // Check if there are alphanumeric char
+        if(!ctype_alpha($link->word)){
+            $this->setError('word', 'Word is not valid. Must contain only letters');
+        }
+
+        // Check word is empty
+        if(empty($link->word)){
+            $this->setError('word', 'Word is not valid. Word is empty');
+        }
+
+        // Check word length
+        if(strlen($link->word) > $this->settings['word']['maxLength']){
+            $this->setError('word', 'Word is not valid. Word must be shorter than '.$this->settings['word']['maxLength'].' characters.');
+        }
+
         
         //  Check the word is not a reserved one
         if(in_array($link->word, $this->settings['reservedWords'])){

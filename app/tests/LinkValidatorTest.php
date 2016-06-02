@@ -22,6 +22,7 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase {
             ['a#'],
             ['A()'],
             ['a.'],
+            ['testlongerthan10']
         ];
     }
 
@@ -42,6 +43,7 @@ class LinkValidatorTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertFalse($linkValidator->isValid($link));
     }
+
 
     public function addAddingValidWordAndTestingValidityReturnsTrueDataProvider()
     {
