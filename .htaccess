@@ -17,4 +17,4 @@
 </IfModule>
 
 # # av:php5-engine
-AddHandler av-php56 .php
+#AddHandler av-php56 .php

@@ -16,13 +16,13 @@
   },
   "scripts": {
         "post-install-cmd": [
-            "chmod 777 app/cache",
-            "chmod 777 app/log",
+            "chmod 777 cache",
+            "chmod 777 log",
             "chmod 777 uploads"
         ],
         "post-update-cmd": [
-            "chmod 777 app/cache",
-            "chmod 777 app/log",
+            "chmod 777 cache",
+            "chmod 777 log",
             "chmod 777 uploads"
         ]
     }
