@@ -15,5 +15,8 @@ Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--memory", "1024"]
     end
 
+    # configure the shell file as a provision step:
+    config.vm.provision :shell, path: "vagrant/provision.sh"
+
 
 end
