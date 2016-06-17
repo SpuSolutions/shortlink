@@ -8,16 +8,21 @@ _Slim 3 framework_,
 _Twig template engine_,
 _Bootstrap_
 
-## Vagrant
+## Installation
 Install Vagrant, Virtual, Virtual Box Extension Pack and Vagrant Hosts Updater
 
-1. `vagrant up`
+## Vagrant
+```bash
+vagrant up
+```
 
 The website can be viewed at http://shorthis.localhost
 
 ### Vagrant ssh
 You can ssh into vagrant through:
 
-`vagrant ssh`
+```bash
+vagrant ssh
+```
 
 #How to install shortlink for testing:
