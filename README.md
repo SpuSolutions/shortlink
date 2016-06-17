@@ -19,10 +19,14 @@ vagrant up
 The website can be viewed at http://shorthis.localhost
 
 ### Vagrant ssh
-You can ssh into vagrant through:
+To SSH into vagrant
 
 ```bash
 vagrant ssh
 ```
 
-#How to install shortlink for testing:
+### Vagrant provision
+
+```bash
+vagrant provision
+```
