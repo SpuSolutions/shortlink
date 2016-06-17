@@ -1,4 +1,4 @@
-# shorlink
+# shortlink
 Shortlink allows to create short and memorable urls to send links between your devices.
 
 Generated links have a life of 60 minutes. They are then permanently deleted.
@@ -12,6 +12,7 @@ _Bootstrap_
 Install Vagrant, Virtual, Virtual Box Extension Pack and Vagrant Hosts Updater
 ```bash
 git clone https://github.com/SpuSolutions/shortlink.git
+cd shortlink
 ```
 
 ## Vagrant
