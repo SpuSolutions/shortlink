@@ -15,6 +15,3 @@
     RewriteRule ^(.*) - [E=BASE:%1]
     RewriteRule ^(.*)$ %{ENV:BASE}index.php [NC,L]
 </IfModule>
-
-# # av:php5-engine
-AddHandler av-php56 .php
