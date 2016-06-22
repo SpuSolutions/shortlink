@@ -35,7 +35,7 @@ $('#checkPasswordButton').click(function () {
 });
 
 // The root URL for the RESTful services
-var rootURL = "http://localhost/shortlink";
+var rootURL = location.protocol + '//' + location.host;
 
 function findById(id, password, countClicks) {
 
